@@ -1,12 +1,12 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-md p-8">
-      <h1 class="text-2xl font-bold text-gray-800 mb-2">Create an account</h1>
-      <p class="text-gray-500 text-sm mb-6">Join HireFlow as an Employer or Candidate</p>
+  <div class="min-h-screen bg-background flex items-center justify-center px-4">
+    <div class="w-full max-w-md bg-card rounded-2xl shadow-md p-8">
+      <h1 class="text-2xl font-bold text-foreground mb-2">Create an account</h1>
+      <p class="text-muted-foreground text-sm mb-6">Join HireFlow as an Employer or Candidate</p>
 
       <form @submit.prevent="handleRegister" class="space-y-4">
         <div>
-          <label for="reg-name" class="block text-sm font-medium text-gray-700 mb-1"
+          <label for="reg-name" class="block text-sm font-medium text-foreground mb-1"
             >Full Name</label
           >
           <input
@@ -15,24 +15,24 @@
             type="text"
             required
             placeholder="John Doe"
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full border border-border rounded-lg px-4 py-2 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
           />
         </div>
 
         <div>
-          <label for="reg-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <label for="reg-email" class="block text-sm font-medium text-foreground mb-1">Email</label>
           <input
             id="reg-email"
             v-model="email"
             type="email"
             required
             placeholder="you@example.com"
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full border border-border rounded-lg px-4 py-2 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
           />
         </div>
 
         <div>
-          <label for="reg-password" class="block text-sm font-medium text-gray-700 mb-1"
+          <label for="reg-password" class="block text-sm font-medium text-foreground mb-1"
             >Password</label
           >
           <input
@@ -41,19 +41,19 @@
             type="password"
             required
             placeholder="Min. 6 characters"
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full border border-border rounded-lg px-4 py-2 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
           />
         </div>
 
         <fieldset>
-          <legend class="block text-sm font-medium text-gray-700 mb-2">I am a...</legend>
+          <legend class="block text-sm font-medium text-foreground mb-2">I am a...</legend>
           <div class="grid grid-cols-2 gap-3">
             <label
               class="flex items-center justify-center gap-2 border rounded-lg px-4 py-3 cursor-pointer text-sm font-medium transition"
               :class="
                 role === UserRole.EMPLOYER
-                  ? 'border-blue-600 bg-blue-50 text-blue-700'
-                  : 'border-gray-300 text-gray-600'
+                  ? 'border-primary bg-primary/5 text-primary'
+                  : 'border-border text-muted-foreground'
               "
             >
               <input type="radio" v-model="role" :value="UserRole.EMPLOYER" class="hidden" />
@@ -63,8 +63,8 @@
               class="flex items-center justify-center gap-2 border rounded-lg px-4 py-3 cursor-pointer text-sm font-medium transition"
               :class="
                 role === UserRole.CANDIDATE
-                  ? 'border-blue-600 bg-blue-50 text-blue-700'
-                  : 'border-gray-300 text-gray-600'
+                  ? 'border-primary bg-primary/5 text-primary'
+                  : 'border-border text-muted-foreground'
               "
             >
               <input type="radio" v-model="role" :value="UserRole.CANDIDATE" class="hidden" />
@@ -78,15 +78,15 @@
         <button
           type="submit"
           :disabled="loading || !role"
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition disabled:opacity-60"
+          class="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 rounded-lg transition disabled:opacity-60"
         >
           {{ loading ? 'Creating account...' : 'Create account' }}
         </button>
       </form>
 
-      <p class="text-sm text-center text-gray-500 mt-6">
+      <p class="text-sm text-center text-muted-foreground mt-6">
         Already have an account?
-        <RouterLink :to="ROUTES.LOGIN" class="text-blue-600 hover:underline font-medium"
+        <RouterLink :to="ROUTES.LOGIN" class="text-primary hover:underline font-medium"
           >Sign in</RouterLink
         >
       </p>
