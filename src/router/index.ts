@@ -21,6 +21,7 @@ const router = createRouter({
       component: () => import('../views/auth/RegisterView.vue'),
       meta: { guest: true },
     },
+    // Employer routes
     {
       path: ROUTES.EMPLOYER_DASHBOARD,
       name: 'employer-dashboard',
@@ -28,9 +29,40 @@ const router = createRouter({
       meta: { requiresAuth: true, role: UserRole.EMPLOYER },
     },
     {
+      path: ROUTES.EMPLOYER_PIPELINES,
+      name: 'employer-pipelines',
+      component: () => import('../views/employer/PipelinesView.vue'),
+      meta: { requiresAuth: true, role: UserRole.EMPLOYER },
+    },
+    {
+      path: '/employer/pipelines/:id',
+      name: 'employer-pipeline-detail',
+      component: () => import('../views/employer/PipelineDetailView.vue'),
+      meta: { requiresAuth: true, role: UserRole.EMPLOYER },
+    },
+    {
+      path: ROUTES.EMPLOYER_INTERVIEWS,
+      name: 'employer-interviews',
+      component: () => import('../views/employer/InterviewsView.vue'),
+      meta: { requiresAuth: true, role: UserRole.EMPLOYER },
+    },
+    // Candidate routes
+    {
       path: ROUTES.CANDIDATE_DASHBOARD,
       name: 'candidate-dashboard',
       component: () => import('../views/candidate/CandidateDashboardView.vue'),
+      meta: { requiresAuth: true, role: UserRole.CANDIDATE },
+    },
+    {
+      path: ROUTES.CANDIDATE_INTERVIEWS,
+      name: 'candidate-interviews',
+      component: () => import('../views/candidate/CandidateInterviewsView.vue'),
+      meta: { requiresAuth: true, role: UserRole.CANDIDATE },
+    },
+    {
+      path: ROUTES.CANDIDATE_PIPELINE,
+      name: 'candidate-pipeline',
+      component: () => import('../views/candidate/CandidatePipelineView.vue'),
       meta: { requiresAuth: true, role: UserRole.CANDIDATE },
     },
   ],
