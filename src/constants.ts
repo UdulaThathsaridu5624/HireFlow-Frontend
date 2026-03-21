@@ -44,6 +44,7 @@ export const ROUTES = {
   CANDIDATE_DASHBOARD: '/candidate/dashboard',
   CANDIDATE_INTERVIEWS: '/candidate/interviews',
   CANDIDATE_PIPELINE: '/candidate/pipeline',
+  CANDIDATE_CV_PROFILE: '/candidate/cv-profile',
   CANDIDATE_COMPANIES: '/candidate/companies',
   CANDIDATE_COMPANY_DETAIL: '/candidate/companies/:id',
 } as const

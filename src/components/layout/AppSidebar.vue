@@ -74,6 +74,7 @@ import {
   Calendar,
   TrendingUp,
   Building2,
+  FileText,
   ChevronsUpDown,
   LogOut,
 } from 'lucide-vue-next'
@@ -123,6 +124,7 @@ const employerNav = [
 ]
 const candidateNav = [
   { to: ROUTES.CANDIDATE_DASHBOARD, label: 'Dashboard', icon: LayoutDashboard },
+  { to: ROUTES.CANDIDATE_CV_PROFILE, label: 'My CV Profile', icon: FileText },
   { to: ROUTES.CANDIDATE_COMPANIES, label: 'Explore Companies', icon: Building2 },
   { to: ROUTES.CANDIDATE_INTERVIEWS, label: 'My Interviews', icon: Calendar },
   { to: ROUTES.CANDIDATE_PIPELINE, label: 'My Applications', icon: TrendingUp },
