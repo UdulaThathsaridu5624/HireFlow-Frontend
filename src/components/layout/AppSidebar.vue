@@ -123,6 +123,7 @@ const employerNav = [
 ]
 const candidateNav = [
   { to: ROUTES.CANDIDATE_DASHBOARD, label: 'Dashboard', icon: LayoutDashboard },
+  { to: ROUTES.CANDIDATE_COMPANIES, label: 'Explore Companies', icon: Building2 },
   { to: ROUTES.CANDIDATE_INTERVIEWS, label: 'My Interviews', icon: Calendar },
   { to: ROUTES.CANDIDATE_PIPELINE, label: 'My Applications', icon: TrendingUp },
 ]
