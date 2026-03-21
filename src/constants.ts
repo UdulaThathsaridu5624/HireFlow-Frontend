@@ -40,6 +40,7 @@ export const ROUTES = {
   EMPLOYER_PIPELINES: '/employer/pipelines',
   EMPLOYER_PIPELINE_DETAIL: '/employer/pipelines/:id',
   EMPLOYER_INTERVIEWS: '/employer/interviews',
+  EMPLOYER_COMPANY: '/employer/company',
   CANDIDATE_DASHBOARD: '/candidate/dashboard',
   CANDIDATE_INTERVIEWS: '/candidate/interviews',
   CANDIDATE_PIPELINE: '/candidate/pipeline',
