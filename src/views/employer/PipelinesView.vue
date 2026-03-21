@@ -4,19 +4,27 @@
       <div class="flex items-center justify-between">
         <div>
           <h1 class="text-2xl font-bold text-foreground">Hiring Pipelines</h1>
-          <p class="text-muted-foreground text-sm mt-1">Track all active candidates across your job postings.</p>
+          <p class="text-muted-foreground text-sm mt-1">
+            Track all active candidates across your job postings.
+          </p>
         </div>
       </div>
 
       <Card>
         <CardContent class="p-0">
-          <div v-if="pipelineStore.loading" class="flex items-center justify-center py-16 text-muted-foreground/60">
+          <div
+            v-if="pipelineStore.loading"
+            class="flex items-center justify-center py-16 text-muted-foreground/60"
+          >
             <Loader2 class="h-6 w-6 animate-spin mr-2" /> Loading pipelines...
           </div>
           <div v-else-if="pipelineStore.error" class="py-16 text-center text-red-500 text-sm">
             {{ pipelineStore.error }}
           </div>
-          <div v-else-if="!pipelineStore.pipelines.length" class="py-16 text-center text-muted-foreground/60 text-sm">
+          <div
+            v-else-if="!pipelineStore.pipelines.length"
+            class="py-16 text-center text-muted-foreground/60 text-sm"
+          >
             No active pipelines yet.
           </div>
           <Table v-else>
@@ -30,12 +38,13 @@
               </TableRow>
             </TableHeader>
             <TableBody>
-              <PipelineRow
-                v-for="pipeline in pipelineStore.pipelines"
-                :key="pipeline.id"
-                :pipeline="pipeline"
-                @click="navigateTo"
-              />
+              <template v-for="pipeline in pipelineStore.pipelines" :key="pipeline.id">
+                <PipelineRow
+                  v-if="pipeline && typeof pipeline === 'object' && pipeline.id"
+                  :pipeline="pipeline"
+                  @click="navigateTo"
+                />
+              </template>
             </TableBody>
           </Table>
         </CardContent>

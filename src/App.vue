@@ -4,6 +4,6 @@ import { Toaster } from '@/components/ui/sonner'
 </script>
 
 <template>
-  <RouterView />
+  <RouterView :key="$route.fullPath" />
   <Toaster />
 </template>
