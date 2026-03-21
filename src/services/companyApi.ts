@@ -15,6 +15,16 @@ export interface CompanyResponse extends CompanyMetadata {
   logoUrl: string
   reputationScore: number
   createdAt: string
+  followersCount: number
+  followedByMe: boolean
+}
+
+export interface CompanyAnalytics {
+  profileViews: number
+  jobPosts: number
+  applicationsReceived: number
+  followersCount: number
+  lastUpdated: string
 }
 
 const companyApi = axios.create({
@@ -65,4 +75,26 @@ export default {
   deleteCompany(id: number) {
     return companyApi.delete(`/api/companies/${id}`)
   },
+
+  getAllCompanies() {
+    return companyApi.get<CompanyResponse[]>('/api/companies')
+  },
+
+  searchCompanies(query: string) {
+    return companyApi.get<CompanyResponse[]>(`/api/companies/search`, {
+      params: { query }
+    })
+  },
+
+  followCompany(id: number) {
+    return companyApi.post(`/api/companies/${id}/follow`)
+  },
+
+  unfollowCompany(id: number) {
+    return companyApi.delete(`/api/companies/${id}/follow`)
+  },
+
+  getCompanyAnalytics(id: number) {
+    return companyApi.get<CompanyAnalytics>(`/api/companies/${id}/analytics`)
+  }
 }
