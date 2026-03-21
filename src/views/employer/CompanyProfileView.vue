@@ -24,7 +24,55 @@
         <Button @click="startCreate"> <Plus class="h-4 w-4 mr-2" /> Create Profile </Button>
       </div>
 
-      <div v-else-if="companyStore.company && !isEditing" class="space-y-6">
+      <div v-if="companyStore.company && !isEditing" class="space-y-6">
+        <!-- Analytics Section -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Card class="p-4 bg-primary/5 border-primary/20">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-primary/10 rounded-lg"><Eye class="h-4 w-4 text-primary" /></div>
+              <div>
+                <p class="text-xs text-muted-foreground uppercase font-semibold">Views</p>
+                <h3 class="text-xl font-bold">{{ companyStore.analytics?.profileViews || 0 }}</h3>
+              </div>
+            </div>
+          </Card>
+          <Card class="p-4 bg-blue-500/5 border-blue-500/20">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-blue-500/10 rounded-lg">
+                <Users class="h-4 w-4 text-blue-500" />
+              </div>
+              <div>
+                <p class="text-xs text-muted-foreground uppercase font-semibold">Followers</p>
+                <h3 class="text-xl font-bold">{{ companyStore.analytics?.followersCount || 0 }}</h3>
+              </div>
+            </div>
+          </Card>
+          <Card class="p-4 bg-emerald-500/5 border-emerald-500/20">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-emerald-500/10 rounded-lg">
+                <Briefcase class="h-4 w-4 text-emerald-500" />
+              </div>
+              <div>
+                <p class="text-xs text-muted-foreground uppercase font-semibold">Jobs</p>
+                <h3 class="text-xl font-bold">{{ companyStore.analytics?.jobPosts || 0 }}</h3>
+              </div>
+            </div>
+          </Card>
+          <Card class="p-4 bg-amber-500/5 border-amber-500/20">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-amber-500/10 rounded-lg">
+                <TrendingUp class="h-4 w-4 text-amber-500" />
+              </div>
+              <div>
+                <p class="text-xs text-muted-foreground uppercase font-semibold">Apps</p>
+                <h3 class="text-xl font-bold">
+                  {{ companyStore.analytics?.applicationsReceived || 0 }}
+                </h3>
+              </div>
+            </div>
+          </Card>
+        </div>
+
         <Card>
           <CardHeader class="flex flex-row items-center gap-6">
             <div
@@ -188,7 +236,19 @@
 import { ref, onMounted, reactive } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useCompanyStore } from '@/stores/company'
-import { Building2, Plus, Loader2, MapPin, Briefcase, Globe, Pencil, Trash2 } from 'lucide-vue-next'
+import {
+  Building2,
+  Plus,
+  Loader2,
+  MapPin,
+  Briefcase,
+  Globe,
+  Pencil,
+  Trash2,
+  Eye,
+  Users,
+  TrendingUp,
+} from 'lucide-vue-next'
 import AppShell from '@/components/layout/AppShell.vue'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -217,6 +277,9 @@ const logoPreview = ref<string | null>(null)
 onMounted(async () => {
   if (authStore.userId) {
     await companyStore.fetchByEmployee(authStore.userId)
+    if (companyStore.company?.id) {
+      await companyStore.fetchAnalytics(companyStore.company.id)
+    }
   }
 })
 
