@@ -3,14 +3,14 @@
     <div class="flex flex-col gap-6">
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-foreground">Hiring Pipelines</h1>
+          <h1 class="font-headline text-2xl font-extrabold text-foreground">Pipelines</h1>
           <p class="text-muted-foreground text-sm mt-1">
             Track all active candidates across your job postings.
           </p>
         </div>
       </div>
 
-      <Card>
+      <Card class="editorial-shadow">
         <CardContent class="p-0">
           <div
             v-if="pipelineStore.loading"
@@ -18,7 +18,7 @@
           >
             <Loader2 class="h-6 w-6 animate-spin mr-2" /> Loading pipelines...
           </div>
-          <div v-else-if="pipelineStore.error" class="py-16 text-center text-red-500 text-sm">
+          <div v-else-if="pipelineStore.error" class="py-16 text-center text-destructive text-sm">
             {{ pipelineStore.error }}
           </div>
           <div

@@ -3,7 +3,7 @@
     <div class="space-y-6">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 class="text-3xl font-bold tracking-tight text-foreground">Explore Companies</h1>
+          <h1 class="font-headline text-3xl font-extrabold tracking-tight text-foreground">Explore Companies</h1>
           <p class="text-muted-foreground text-sm mt-1">Discover companies and follow them to stay updated with job opportunities.</p>
         </div>
         <div class="flex items-center text-sm text-muted-foreground">
@@ -58,7 +58,7 @@
         <Card
           v-for="company in companyStore.companies"
           :key="company.id"
-          class="flex flex-col group hover:shadow-xl transition-all duration-300 border-border/50 hover:border-primary/40 cursor-pointer relative"
+          class="flex flex-col group editorial-shadow hover:shadow-xl transition-all duration-300 border-border/50 hover:border-primary/40 cursor-pointer relative"
           @click="router.push({ name: 'candidate-company-detail', params: { id: company.id } })"
         >
           <CardHeader class="flex flex-row items-start justify-between space-y-0 border-b pb-4 shrink-0">

@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <Card class="editorial-shadow">
     <CardContent class="pt-5 space-y-3">
       <div class="flex items-start justify-between gap-2">
         <div>

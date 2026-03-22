@@ -2,7 +2,7 @@
   <AppShell>
     <div class="flex flex-col gap-8 max-w-4xl">
       <div>
-        <h1 class="text-2xl font-bold text-foreground">Company Profile</h1>
+        <h1 class="font-headline text-2xl font-extrabold text-foreground">Company Profile</h1>
         <p class="text-muted-foreground text-sm mt-1">
           Manage your company's presence on HireFlow.
         </p>
@@ -17,29 +17,29 @@
         class="py-20 text-center border-2 border-dashed rounded-xl border-border"
       >
         <Building2 class="h-12 w-12 mx-auto text-muted-foreground/40 mb-4" />
-        <h3 class="text-lg font-semibold text-foreground">No Company Profile Yet</h3>
+        <h3 class="font-headline text-lg font-semibold text-foreground">No Company Profile Yet</h3>
         <p class="text-muted-foreground mb-6">
           Create a profile to showcase your company to candidates.
         </p>
-        <Button @click="startCreate"> <Plus class="h-4 w-4 mr-2" /> Create Profile </Button>
+        <Button class="gradient-cta" @click="startCreate"> <Plus class="h-4 w-4 mr-2" /> Create Profile </Button>
       </div>
 
       <div v-if="companyStore.company && !isEditing" class="space-y-6">
         <!-- Analytics Section -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card class="p-4 bg-primary/5 border-primary/20">
+          <Card class="p-4 editorial-shadow border-l-4 border-primary">
             <div class="flex items-center gap-3">
-              <div class="p-2 bg-primary/10 rounded-lg"><Eye class="h-4 w-4 text-primary" /></div>
+              <div class="p-2 bg-muted rounded-lg"><Eye class="h-4 w-4 text-primary" /></div>
               <div>
                 <p class="text-xs text-muted-foreground uppercase font-semibold">Views</p>
                 <h3 class="text-xl font-bold">{{ companyStore.analytics?.profileViews || 0 }}</h3>
               </div>
             </div>
           </Card>
-          <Card class="p-4 bg-blue-500/5 border-blue-500/20">
+          <Card class="p-4 editorial-shadow border-l-4 border-secondary">
             <div class="flex items-center gap-3">
-              <div class="p-2 bg-blue-500/10 rounded-lg">
-                <Users class="h-4 w-4 text-blue-500" />
+              <div class="p-2 bg-muted rounded-lg">
+                <Users class="h-4 w-4 text-primary" />
               </div>
               <div>
                 <p class="text-xs text-muted-foreground uppercase font-semibold">Followers</p>
@@ -47,10 +47,10 @@
               </div>
             </div>
           </Card>
-          <Card class="p-4 bg-emerald-500/5 border-emerald-500/20">
+          <Card class="p-4 editorial-shadow border-l-4 border-tertiary-fixed-dim">
             <div class="flex items-center gap-3">
-              <div class="p-2 bg-emerald-500/10 rounded-lg">
-                <Briefcase class="h-4 w-4 text-emerald-500" />
+              <div class="p-2 bg-muted rounded-lg">
+                <Briefcase class="h-4 w-4 text-tertiary-fixed-dim" />
               </div>
               <div>
                 <p class="text-xs text-muted-foreground uppercase font-semibold">Jobs</p>
@@ -58,10 +58,10 @@
               </div>
             </div>
           </Card>
-          <Card class="p-4 bg-amber-500/5 border-amber-500/20">
+          <Card class="p-4 editorial-shadow border-l-4 border-tertiary-container">
             <div class="flex items-center gap-3">
-              <div class="p-2 bg-amber-500/10 rounded-lg">
-                <TrendingUp class="h-4 w-4 text-amber-500" />
+              <div class="p-2 bg-muted rounded-lg">
+                <TrendingUp class="h-4 w-4 text-tertiary-container" />
               </div>
               <div>
                 <p class="text-xs text-muted-foreground uppercase font-semibold">Apps</p>
@@ -73,10 +73,10 @@
           </Card>
         </div>
 
-        <Card>
+        <Card class="editorial-shadow">
           <CardHeader class="flex flex-row items-center gap-6">
             <div
-              class="h-20 w-20 rounded-lg bg-muted overflow-hidden shrink-0 border border-border"
+              class="h-20 w-20 rounded-lg bg-muted overflow-hidden shrink-0"
             >
               <img
                 v-if="companyStore.company.logoUrl"
@@ -86,7 +86,7 @@
               <Building2 v-else class="h-10 w-10 mx-auto mt-5 text-muted-foreground/30" />
             </div>
             <div class="flex-1">
-              <CardTitle class="text-2xl">{{ companyStore.company.companyName }}</CardTitle>
+              <CardTitle class="font-headline text-2xl">{{ companyStore.company.companyName }}</CardTitle>
               <div class="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-sm text-muted-foreground">
                 <span class="flex items-center gap-1"
                   ><MapPin class="h-3.5 w-3.5" /> {{ companyStore.company.location }}</span
@@ -103,20 +103,20 @@
               <Button variant="outline" size="sm" @click="startEdit">
                 <Pencil class="h-4 w-4 mr-2" /> Edit
               </Button>
-              <Button variant="destructive" size="sm" @click="handleDelete">
+              <Button variant="destructive" size="sm" @click="confirmDelete">
                 <Trash2 class="h-4 w-4 mr-2" /> Delete
               </Button>
             </div>
           </CardHeader>
           <CardContent class="space-y-6">
             <div>
-              <h4 class="text-sm font-semibold text-foreground mb-2">Background</h4>
+              <h4 class="font-headline text-sm font-semibold text-foreground mb-2">Background</h4>
               <p class="text-sm text-muted-foreground leading-relaxed">
                 {{ companyStore.company.background }}
               </p>
             </div>
             <div>
-              <h4 class="text-sm font-semibold text-foreground mb-2">Culture & Tags</h4>
+              <h4 class="font-headline text-sm font-semibold text-foreground mb-2">Culture & Tags</h4>
               <div class="flex flex-wrap gap-2">
                 <Badge
                   v-for="tag in companyStore.company.cultureTags"
@@ -131,47 +131,43 @@
       </div>
 
       <!-- Create / Edit Form -->
-      <Card v-if="isEditing">
+      <Card v-if="isEditing" class="editorial-shadow">
         <CardHeader>
-          <CardTitle>{{ editingId ? 'Update' : 'Create' }} Company Profile</CardTitle>
+          <CardTitle class="font-headline">{{ editingId ? 'Update' : 'Create' }} Company Profile</CardTitle>
         </CardHeader>
         <CardContent>
           <form @submit.prevent="handleSubmit" class="space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div class="space-y-2">
                 <label class="text-sm font-medium">Company Name</label>
-                <input
+                <Input
                   v-model="form.companyName"
                   required
-                  class="w-full border rounded-lg px-4 py-2 bg-background focus:ring-2 focus:ring-primary/50 outline-none"
                   placeholder="e.g. HireFlow Tech"
                 />
               </div>
               <div class="space-y-2">
                 <label class="text-sm font-medium">Industry</label>
-                <input
+                <Input
                   v-model="form.industry"
                   required
-                  class="w-full border rounded-lg px-4 py-2 bg-background focus:ring-2 focus:ring-primary/50 outline-none"
                   placeholder="e.g. IT, Healthcare"
                 />
               </div>
               <div class="space-y-2">
                 <label class="text-sm font-medium">Location</label>
-                <input
+                <Input
                   v-model="form.location"
                   required
-                  class="w-full border rounded-lg px-4 py-2 bg-background focus:ring-2 focus:ring-primary/50 outline-none"
                   placeholder="e.g. Colombo, Sri Lanka"
                 />
               </div>
               <div class="space-y-2">
                 <label class="text-sm font-medium">Website URL</label>
-                <input
+                <Input
                   v-model="form.website"
                   required
                   type="url"
-                  class="w-full border rounded-lg px-4 py-2 bg-background focus:ring-2 focus:ring-primary/50 outline-none"
                   placeholder="https://example.com"
                 />
               </div>
@@ -179,20 +175,18 @@
 
             <div class="space-y-2">
               <label class="text-sm font-medium">Company Background</label>
-              <textarea
+              <Textarea
                 v-model="form.background"
                 required
                 rows="4"
-                class="w-full border rounded-lg px-4 py-2 bg-background focus:ring-2 focus:ring-primary/50 outline-none resize-none"
                 placeholder="Describe your company..."
-              ></textarea>
+              />
             </div>
 
             <div class="space-y-2">
               <label class="text-sm font-medium">Culture Tags (Comma separated)</label>
-              <input
+              <Input
                 v-model="cultureTagsInput"
-                class="w-full border rounded-lg px-4 py-2 bg-background focus:ring-2 focus:ring-primary/50 outline-none"
                 placeholder="Remote-First, High-Growth, Inclusive"
               />
             </div>
@@ -202,7 +196,7 @@
               <div class="mt-1 flex items-center gap-4">
                 <div
                   v-if="logoPreview || (companyStore.company?.logoUrl && !logoFile)"
-                  class="h-16 w-16 rounded border overflow-hidden shrink-0"
+                  class="h-16 w-16 rounded overflow-hidden shrink-0"
                 >
                   <img
                     :src="logoPreview || companyStore.company?.logoUrl"
@@ -220,7 +214,7 @@
 
             <div class="flex justify-end gap-3 pt-4 border-t">
               <Button type="button" variant="outline" @click="isEditing = false">Cancel</Button>
-              <Button type="submit" :disabled="loading">
+              <Button type="submit" :disabled="loading" class="gradient-cta">
                 <Loader2 v-if="loading" class="h-4 w-4 mr-2 animate-spin" />
                 {{ editingId ? 'Update Profile' : 'Create Profile' }}
               </Button>
@@ -228,6 +222,24 @@
           </form>
         </CardContent>
       </Card>
+
+      <!-- Delete Confirmation -->
+      <AlertDialog v-model:open="showDeleteConfirm">
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle class="font-headline">Delete company profile?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete your company profile? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction class="bg-destructive text-white hover:bg-destructive/90" @click="handleDelete">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   </AppShell>
 </template>
@@ -253,6 +265,12 @@ import AppShell from '@/components/layout/AppShell.vue'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 import { toast } from 'vue-sonner'
 
 const authStore = useAuthStore()
@@ -261,6 +279,7 @@ const companyStore = useCompanyStore()
 const isEditing = ref(false)
 const editingId = ref<number | null>(null)
 const loading = ref(false)
+const showDeleteConfirm = ref(false)
 
 const form = reactive({
   companyName: '',
@@ -334,7 +353,7 @@ async function handleSubmit() {
 
   const metadata = {
     ...form,
-    employeeId: String(authStore.userId), // Backend expects UUID string
+    employeeId: String(authStore.userId),
     cultureTags: tags,
   }
 
@@ -360,10 +379,12 @@ async function handleSubmit() {
   }
 }
 
-async function handleDelete() {
-  if (!companyStore.company || !confirm('Are you sure you want to delete your company profile?'))
-    return
+function confirmDelete() {
+  showDeleteConfirm.value = true
+}
 
+async function handleDelete() {
+  if (!companyStore.company) return
   try {
     await companyStore.deleteCompany(companyStore.company.id)
     toast.success('Company profile deleted')

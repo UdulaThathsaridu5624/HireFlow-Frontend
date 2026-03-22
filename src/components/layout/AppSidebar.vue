@@ -1,21 +1,28 @@
 <template>
   <Sidebar collapsible="icon">
     <SidebarHeader>
-      <div class="flex items-center gap-2 px-2 py-1">
-        <span class="font-bold text-primary group-data-[collapsible=icon]:hidden">HireFlow</span>
-        <Badge variant="outline" class="text-xs group-data-[collapsible=icon]:hidden">
-          {{ authStore.isEmployer ? 'Employer' : 'Candidate' }}
-        </Badge>
+      <div class="flex flex-col gap-0.5 px-2 py-2">
+        <span class="font-headline text-lg font-extrabold tracking-tight text-primary group-data-[collapsible=icon]:hidden">
+          HireFlow
+        </span>
+        <span class="text-[11px] text-muted-foreground group-data-[collapsible=icon]:hidden">
+          {{ authStore.isEmployer ? 'Employer Portal' : 'Job Seeker' }}
+        </span>
       </div>
     </SidebarHeader>
 
     <SidebarContent>
       <SidebarGroup>
-        <SidebarGroupLabel>{{ authStore.isEmployer ? 'Employer' : 'Candidate' }}</SidebarGroupLabel>
+        <SidebarGroupLabel>Navigation</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem v-for="item in navItems" :key="item.to">
-              <SidebarMenuButton as-child :is-active="isActive(item.to)" :tooltip="item.label">
+              <SidebarMenuButton
+                as-child
+                :is-active="isActive(item.to)"
+                :tooltip="item.label"
+                class="transition-transform duration-200 hover:translate-x-0.5"
+              >
                 <RouterLink :to="item.to">
                   <component :is="item.icon" />
                   <span>{{ item.label }}</span>
@@ -29,6 +36,17 @@
 
     <SidebarFooter>
       <SidebarMenu>
+        <!-- CTA Button -->
+        <SidebarMenuItem class="group-data-[collapsible=icon]:hidden">
+          <button
+            class="w-full gradient-cta py-2.5 rounded-lg text-sm font-semibold transition-opacity active:opacity-80 mb-2"
+            @click="handleCtaClick"
+          >
+            {{ authStore.isEmployer ? 'Post New Job' : 'Complete CV' }}
+          </button>
+        </SidebarMenuItem>
+
+        <!-- User Profile -->
         <SidebarMenuItem>
           <DropdownMenu>
             <DropdownMenuTrigger as-child>
@@ -53,7 +71,7 @@
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent side="top" align="end" class="w-48">
-              <DropdownMenuItem class="text-red-500 cursor-pointer" @click="handleLogout">
+              <DropdownMenuItem class="text-destructive cursor-pointer" @click="handleLogout">
                 <LogOut class="mr-2 h-4 w-4" />
                 Sign out
               </DropdownMenuItem>
@@ -70,19 +88,19 @@ import { computed } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import {
   LayoutDashboard,
+  Search,
   Users,
   Calendar,
-  TrendingUp,
   Building2,
   FileText,
   ChevronsUpDown,
   LogOut,
   Briefcase,
+  User,
 } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { ROUTES } from '@/constants'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -119,25 +137,33 @@ const initials = computed(() =>
 
 const employerNav = [
   { to: ROUTES.EMPLOYER_DASHBOARD, label: 'Dashboard', icon: LayoutDashboard },
-  { to: ROUTES.EMPLOYER_JOBS, label: 'Job Listings', icon: Briefcase },   // ← ADD THIS
-  { to: ROUTES.EMPLOYER_PIPELINES, label: 'Hiring Pipelines', icon: Users },
+  { to: ROUTES.EMPLOYER_JOBS, label: 'Jobs', icon: Briefcase },
+  { to: ROUTES.EMPLOYER_PIPELINES, label: 'Pipelines', icon: Users },
   { to: ROUTES.EMPLOYER_INTERVIEWS, label: 'Interviews', icon: Calendar },
-  { to: ROUTES.EMPLOYER_COMPANY, label: 'Company Profile', icon: Building2 },
+  { to: ROUTES.EMPLOYER_COMPANY, label: 'Company', icon: Building2 },
 ]
 
 const candidateNav = [
   { to: ROUTES.CANDIDATE_DASHBOARD, label: 'Dashboard', icon: LayoutDashboard },
-  { to: ROUTES.CANDIDATE_CV_PROFILE, label: 'My CV Profile', icon: FileText },
-  { to: ROUTES.CANDIDATE_JOBS, label: 'Browse Jobs', icon: Briefcase },
-  { to: ROUTES.CANDIDATE_COMPANIES, label: 'Explore Companies', icon: Building2 },
-  { to: ROUTES.CANDIDATE_INTERVIEWS, label: 'My Interviews', icon: Calendar },
-  { to: ROUTES.CANDIDATE_PIPELINE, label: 'My Applications', icon: TrendingUp },
+  { to: ROUTES.CANDIDATE_JOBS, label: 'Discover Jobs', icon: Search },
+  { to: ROUTES.CANDIDATE_PIPELINE, label: 'My Applications', icon: FileText },
+  { to: ROUTES.CANDIDATE_INTERVIEWS, label: 'Interviews', icon: Calendar },
+  { to: ROUTES.CANDIDATE_CV_PROFILE, label: 'CV Profile', icon: User },
+  { to: ROUTES.CANDIDATE_COMPANIES, label: 'Companies', icon: Building2 },
 ]
 
 const navItems = computed(() => (authStore.isEmployer ? employerNav : candidateNav))
 
 function isActive(path: string) {
   return route.path === path || route.path.startsWith(path + '/')
+}
+
+function handleCtaClick() {
+  if (authStore.isEmployer) {
+    router.push(ROUTES.EMPLOYER_JOBS)
+  } else {
+    router.push(ROUTES.CANDIDATE_CV_PROFILE)
+  }
 }
 
 async function handleLogout() {
