@@ -37,7 +37,9 @@
                 class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               >
                 <Avatar class="h-8 w-8 rounded-lg shrink-0">
-                  <AvatarFallback class="rounded-lg bg-primary/10 text-primary text-xs font-semibold">
+                  <AvatarFallback
+                    class="rounded-lg bg-primary/10 text-primary text-xs font-semibold"
+                  >
                     {{ initials }}
                   </AvatarFallback>
                 </Avatar>
@@ -60,14 +62,22 @@
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarFooter>
-
   </Sidebar>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
-import { LayoutDashboard, Users, Calendar, TrendingUp, ChevronsUpDown, LogOut, Briefcase } from 'lucide-vue-next'
+import {
+  LayoutDashboard,
+  Users,
+  Calendar,
+  TrendingUp,
+  Building2,
+  ChevronsUpDown,
+  LogOut,
+  Briefcase,
+} from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { ROUTES } from '@/constants'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
@@ -97,7 +107,12 @@ const router = useRouter()
 
 const initials = computed(() =>
   authStore.name
-    ? authStore.name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)
+    ? authStore.name
+        .split(' ')
+        .map((n) => n[0])
+        .join('')
+        .toUpperCase()
+        .slice(0, 2)
     : '?',
 )
 
@@ -106,11 +121,13 @@ const employerNav = [
   { to: ROUTES.EMPLOYER_JOBS, label: 'Job Listings', icon: Briefcase },   // ← ADD THIS
   { to: ROUTES.EMPLOYER_PIPELINES, label: 'Hiring Pipelines', icon: Users },
   { to: ROUTES.EMPLOYER_INTERVIEWS, label: 'Interviews', icon: Calendar },
+  { to: ROUTES.EMPLOYER_COMPANY, label: 'Company Profile', icon: Building2 },
 ]
 
 const candidateNav = [
   { to: ROUTES.CANDIDATE_DASHBOARD, label: 'Dashboard', icon: LayoutDashboard },
-  { to: ROUTES.CANDIDATE_JOBS, label: 'Browse Jobs', icon: Briefcase },   // ← ADD THIS
+  { to: ROUTES.CANDIDATE_JOBS, label: 'Browse Jobs', icon: Briefcase },
+  { to: ROUTES.CANDIDATE_COMPANIES, label: 'Explore Companies', icon: Building2 },
   { to: ROUTES.CANDIDATE_INTERVIEWS, label: 'My Interviews', icon: Calendar },
   { to: ROUTES.CANDIDATE_PIPELINE, label: 'My Applications', icon: TrendingUp },
 ]
