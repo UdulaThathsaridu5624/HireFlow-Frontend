@@ -89,6 +89,15 @@ const router = createRouter({
       meta: { requiresAuth: true, role: UserRole.CANDIDATE },
     },
     {
+      path: ROUTES.CANDIDATE_CV_PROFILE,
+      name: 'candidate-cv-profile',
+      component: () => import('../views/candidate/CandidateCvProfileView.vue'),
+      meta: { requiresAuth: true, role: UserRole.CANDIDATE },
+    },
+    {
+      path: ROUTES.CANDIDATE_JOBS,
+      name: 'candidate-jobs',
+      component: () => import('../views/candidate/CandidateJobBoardView.vue'),
       path: ROUTES.CANDIDATE_COMPANIES,
       name: 'candidate-companies',
       component: () => import('../views/candidate/ExploreCompaniesView.vue'),
