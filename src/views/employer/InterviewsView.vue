@@ -2,7 +2,7 @@
   <AppShell>
     <div class="flex flex-col gap-6">
       <div>
-        <h1 class="text-2xl font-bold text-foreground">Interviews</h1>
+        <h1 class="font-headline text-2xl font-extrabold text-foreground">Interviews</h1>
         <p class="text-muted-foreground text-sm mt-1">All scheduled interviews across your job postings.</p>
       </div>
 

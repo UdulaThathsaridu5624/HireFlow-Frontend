@@ -40,7 +40,7 @@
 
               <div class="flex-1 space-y-4">
                 <div class="flex flex-wrap items-center gap-3">
-                  <h1 class="text-4xl font-extrabold tracking-tight">{{ company.companyName }}</h1>
+                  <h1 class="font-headline text-4xl font-extrabold tracking-tight">{{ company.companyName }}</h1>
                   <Badge variant="secondary" class="h-6 px-3">{{ company.industry }}</Badge>
                 </div>
 
@@ -99,9 +99,9 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Main Content -->
         <div class="lg:col-span-2 space-y-8">
-          <Card class="border-border/40 shadow-sm">
+          <Card class="editorial-shadow">
             <CardHeader>
-              <CardTitle class="flex items-center gap-2">
+              <CardTitle class="font-headline flex items-center gap-2">
                 <Briefcase class="h-5 w-5 text-primary" />
                 Company Background
               </CardTitle>
@@ -116,7 +116,7 @@
           <!-- Job Listings Section -->
           <div class="space-y-6">
             <div class="flex items-center justify-between">
-              <h2 class="text-2xl font-bold flex items-center gap-2">
+              <h2 class="font-headline text-2xl font-bold flex items-center gap-2">
                 <LayoutGrid class="h-6 w-6 text-primary" />
                 Open Opportunities
                 <Badge class="ml-2 bg-primary/10 text-primary border-none">{{
@@ -129,7 +129,7 @@
               <Card
                 v-for="job in demoJobs"
                 :key="job.id"
-                class="group hover:border-primary/40 transition-all hover:shadow-md cursor-pointer border-border/40"
+                class="group editorial-shadow hover:border-primary/40 transition-all hover:shadow-md cursor-pointer"
               >
                 <CardContent class="p-6">
                   <div class="flex items-start justify-between">
@@ -189,9 +189,9 @@
             </Button>
           </Card>
 
-          <Card class="border-border/40 shadow-sm">
+          <Card class="editorial-shadow">
             <CardHeader>
-              <CardTitle class="text-base">Company Details</CardTitle>
+              <CardTitle class="font-headline text-base">Company Details</CardTitle>
             </CardHeader>
             <CardContent class="space-y-4">
               <div

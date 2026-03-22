@@ -3,7 +3,7 @@
     <div class="flex flex-col gap-6 max-w-5xl">
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-foreground">My CV Profile</h1>
+          <h1 class="font-headline text-2xl font-extrabold text-foreground">My CV Profile</h1>
           <p class="text-muted-foreground text-sm mt-1">
             {{ isEditing ? 'Edit your CV information' : 'Your CV profile' }}
           </p>
@@ -25,9 +25,9 @@
       <template v-else-if="cvStore.profile && !isEditing">
         <div class="space-y-6">
           <!-- Basic Info Card -->
-          <Card>
+          <Card class="editorial-shadow">
             <CardHeader>
-              <CardTitle>Basic Information</CardTitle>
+              <CardTitle class="font-headline">Basic Information</CardTitle>
             </CardHeader>
             <CardContent class="space-y-4">
               <div>
@@ -59,9 +59,9 @@
           </Card>
 
           <!-- Skills Card -->
-          <Card v-if="cvStore.profile.skills?.length">
+          <Card v-if="cvStore.profile.skills?.length" class="editorial-shadow">
             <CardHeader>
-              <CardTitle>Skills</CardTitle>
+              <CardTitle class="font-headline">Skills</CardTitle>
             </CardHeader>
             <CardContent>
               <div class="space-y-3">
@@ -81,9 +81,9 @@
           </Card>
 
           <!-- Education Card -->
-          <Card v-if="cvStore.profile.education?.length">
+          <Card v-if="cvStore.profile.education?.length" class="editorial-shadow">
             <CardHeader>
-              <CardTitle>Education</CardTitle>
+              <CardTitle class="font-headline">Education</CardTitle>
             </CardHeader>
             <CardContent class="space-y-4">
               <div
@@ -105,9 +105,9 @@
           </Card>
 
           <!-- Work Experience Card -->
-          <Card v-if="cvStore.profile.workExperience?.length">
+          <Card v-if="cvStore.profile.workExperience?.length" class="editorial-shadow">
             <CardHeader>
-              <CardTitle>Work Experience</CardTitle>
+              <CardTitle class="font-headline">Work Experience</CardTitle>
             </CardHeader>
             <CardContent class="space-y-4">
               <div
@@ -128,9 +128,9 @@
           </Card>
 
           <!-- Resumes Card -->
-          <Card v-if="cvStore.profile.resumes?.length">
+          <Card v-if="cvStore.profile.resumes?.length" class="editorial-shadow">
             <CardHeader>
-              <CardTitle>Resumes</CardTitle>
+              <CardTitle class="font-headline">Resumes</CardTitle>
             </CardHeader>
             <CardContent>
               <div class="space-y-2">
@@ -161,35 +161,32 @@
       </template>
 
       <!-- Edit Form Mode -->
-      <Card v-else>
+      <Card v-else class="editorial-shadow">
         <CardContent class="pt-6">
           <form class="space-y-8" @submit.prevent="handleSave">
             <section class="space-y-4">
-              <h2 class="text-lg font-semibold text-foreground">Personal Information</h2>
+              <h2 class="font-headline text-lg font-semibold text-foreground">Personal Information</h2>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="space-y-2 md:col-span-2">
                   <label class="text-sm font-medium">Bio</label>
-                  <textarea
+                  <Textarea
                     v-model="form.bio"
                     rows="4"
-                    class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none resize-none"
                     placeholder="Tell employers about yourself"
                   />
                 </div>
                 <div class="space-y-2">
                   <label class="text-sm font-medium">Location</label>
-                  <input
+                  <Input
                     v-model="form.location"
-                    class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none"
                     placeholder="e.g. Colombo, Sri Lanka"
                   />
                 </div>
                 <div class="space-y-2">
                   <label class="text-sm font-medium">LinkedIn URL</label>
-                  <input
+                  <Input
                     v-model="form.linkedinUrl"
                     type="url"
-                    class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none"
                     placeholder="https://linkedin.com/in/your-profile"
                   />
                 </div>
@@ -214,9 +211,8 @@
                   >
                     <div class="space-y-2">
                       <label class="text-xs font-medium text-muted-foreground">Skill</label>
-                      <input
+                      <Input
                         v-model="skill.name"
-                        class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none"
                         placeholder="Java, Vue, SQL"
                       />
                     </div>
@@ -237,15 +233,15 @@
                     <div class="space-y-2">
                       <label class="text-xs font-medium text-muted-foreground">Years Experience</label>
                       <div class="flex gap-2">
-                        <input
-                          v-model.number="skill.yearsExperience"
+                        <Input
+                          :model-value="skill.yearsExperience ?? undefined"
                           type="number"
                           min="0"
-                          class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none"
                           placeholder="0"
+                          @update:model-value="skill.yearsExperience = $event ? Number($event) : null"
                         />
                         <Button type="button" variant="ghost" size="icon" @click="removeSkill(index)">
-                          <Trash2 class="h-4 w-4 text-red-500" />
+                          <Trash2 class="h-4 w-4 text-destructive" />
                         </Button>
                       </div>
                     </div>
@@ -255,7 +251,7 @@
 
             <section class="space-y-4 py-6">
               <div class="flex items-center justify-between pb-4">
-                <h2 class="text-lg font-semibold text-foreground">Education</h2>
+                <h2 class="font-headline text-lg font-semibold text-foreground">Education</h2>
                 <Button type="button" variant="outline" size="sm" @click="addEducation">
                   <Plus class="h-4 w-4 mr-1" /> Add Education
                 </Button>
@@ -269,24 +265,20 @@
                 class="rounded-lg border p-4 space-y-3"
               >
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pb-6">
-                  <input
+                  <Input
                     v-model="education.institutionName"
-                    class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none"
                     placeholder="Institution"
                   />
-                  <input
+                  <Input
                     v-model="education.degree"
-                    class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none"
                     placeholder="Degree"
                   />
-                  <input
+                  <Input
                     v-model="education.fieldOfStudy"
-                    class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none"
                     placeholder="Field of study"
                   />
-                  <input
+                  <Input
                     v-model="education.grade"
-                    class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none"
                     placeholder="Grade"
                   />
                   <div class="space-y-2">
@@ -314,15 +306,14 @@
                     />
                   </div>
                 </div>
-                <textarea
+                <Textarea
                   v-model="education.description"
                   rows="3"
-                  class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none resize-none"
                   placeholder="Description"
                 />
                 <div class="flex justify-end">
                   <Button type="button" variant="ghost" size="sm" @click="removeEducation(index)">
-                    <Trash2 class="h-4 w-4 mr-1 text-red-500" /> Remove
+                    <Trash2 class="h-4 w-4 mr-1 text-destructive" /> Remove
                   </Button>
                 </div>
               </div>
@@ -346,14 +337,12 @@
                 class="rounded-lg border p-4 space-y-3"
               >
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <input
+                  <Input
                     v-model="experience.companyName"
-                    class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none"
                     placeholder="Company"
                   />
-                  <input
+                  <Input
                     v-model="experience.jobTitle"
-                    class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none"
                     placeholder="Job title"
                   />
                   <div class="space-y-2">
@@ -386,15 +375,14 @@
                   <input v-model="experience.currentlyWorking" type="checkbox" class="rounded border" />
                   I currently work here
                 </label>
-                <textarea
+                <Textarea
                   v-model="experience.description"
                   rows="3"
-                  class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none resize-none"
                   placeholder="Responsibilities and achievements"
                 />
                 <div class="flex justify-end">
                   <Button type="button" variant="ghost" size="sm" @click="removeWorkExperience(index)">
-                    <Trash2 class="h-4 w-4 mr-1 text-red-500" /> Remove
+                    <Trash2 class="h-4 w-4 mr-1 text-destructive" /> Remove
                   </Button>
                 </div>
               </div>
@@ -402,7 +390,7 @@
 
             <section class="space-y-4">
               <div class="flex items-center justify-between pb-4">
-                <h2 class="text-lg font-semibold text-foreground">Resumes</h2>
+                <h2 class="font-headline text-lg font-semibold text-foreground">Resumes</h2>
                 <div class="flex items-center gap-2">
                   <Button type="button" variant="outline" size="sm" @click="addResume">
                     <Plus class="h-4 w-4 mr-1" /> Add Resume Link
@@ -443,15 +431,13 @@
                 class="rounded-lg border p-4 space-y-3"
               >
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <input
+                  <Input
                     v-model="resume.fileName"
-                    class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none"
                     placeholder="Resume name"
                   />
-                  <input
+                  <Input
                     v-model="resume.fileUrl"
                     type="url"
-                    class="w-full border rounded-lg px-3 py-2 bg-background focus:ring-2 focus:ring-primary/40 outline-none"
                     placeholder="https://..."
                   />
                 </div>
@@ -466,7 +452,7 @@
                     Set as default resume
                   </label>
                   <Button type="button" variant="ghost" size="sm" @click="removeResume(index)">
-                    <Trash2 class="h-4 w-4 mr-1 text-red-500" /> Remove
+                    <Trash2 class="h-4 w-4 mr-1 text-destructive" /> Remove
                   </Button>
                 </div>
               </div>
@@ -498,6 +484,8 @@ import { toast } from 'vue-sonner'
 import AppShell from '@/components/layout/AppShell.vue'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useCvStore } from '@/stores/cv'
 import type {
