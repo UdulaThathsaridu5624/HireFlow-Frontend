@@ -9,7 +9,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: LoginView, // Temporary to avoid redirect loops
+      component: LoginView,
       meta: { guest: true },
     },
     {
@@ -24,11 +24,18 @@ const router = createRouter({
       component: () => import('../views/auth/RegisterView.vue'),
       meta: { guest: true },
     },
+
     // Employer routes
     {
       path: ROUTES.EMPLOYER_DASHBOARD,
       name: 'employer-dashboard',
       component: () => import('../views/employer/EmployerDashboardView.vue'),
+      meta: { requiresAuth: true, role: UserRole.EMPLOYER },
+    },
+    {
+      path: ROUTES.EMPLOYER_JOBS,
+      name: 'employer-jobs',
+      component: () => import('../views/employer/EmployerJobsView.vue'),
       meta: { requiresAuth: true, role: UserRole.EMPLOYER },
     },
     {
@@ -50,22 +57,23 @@ const router = createRouter({
       meta: { requiresAuth: true, role: UserRole.EMPLOYER },
     },
     {
-      path: ROUTES.EMPLOYER_JOBS,
-      name: 'employer-jobs',
-      component: () => import('../views/employer/EmployerJobsView.vue'),
-      meta: { requiresAuth: true, role: UserRole.EMPLOYER },
-    },
-    {
       path: ROUTES.EMPLOYER_COMPANY,
       name: 'employer-company',
       component: () => import('../views/employer/CompanyProfileView.vue'),
       meta: { requiresAuth: true, role: UserRole.EMPLOYER },
     },
+
     // Candidate routes
     {
       path: ROUTES.CANDIDATE_DASHBOARD,
       name: 'candidate-dashboard',
       component: () => import('../views/candidate/CandidateDashboardView.vue'),
+      meta: { requiresAuth: true, role: UserRole.CANDIDATE },
+    },
+    {
+      path: ROUTES.CANDIDATE_JOBS,
+      name: 'candidate-jobs',
+      component: () => import('../views/candidate/CandidateJobBoardView.vue'),
       meta: { requiresAuth: true, role: UserRole.CANDIDATE },
     },
     {
@@ -81,11 +89,6 @@ const router = createRouter({
       meta: { requiresAuth: true, role: UserRole.CANDIDATE },
     },
     {
-<<<<<<< HEAD
-      path: ROUTES.CANDIDATE_JOBS,
-      name: 'candidate-jobs',
-      component: () => import('../views/candidate/CandidateJobBoardView.vue'),
-=======
       path: ROUTES.CANDIDATE_COMPANIES,
       name: 'candidate-companies',
       component: () => import('../views/candidate/ExploreCompaniesView.vue'),
@@ -95,7 +98,6 @@ const router = createRouter({
       path: ROUTES.CANDIDATE_COMPANY_DETAIL,
       name: 'candidate-company-detail',
       component: () => import('../views/candidate/CompanyDetailsView.vue'),
->>>>>>> develop
       meta: { requiresAuth: true, role: UserRole.CANDIDATE },
     },
   ],
