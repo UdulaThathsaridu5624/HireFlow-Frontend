@@ -46,6 +46,12 @@ const router = createRouter({
       component: () => import('../views/employer/InterviewsView.vue'),
       meta: { requiresAuth: true, role: UserRole.EMPLOYER },
     },
+    {
+      path: ROUTES.EMPLOYER_JOBS,
+      name: 'employer-jobs',
+      component: () => import('../views/employer/EmployerJobsView.vue'),
+      meta: { requiresAuth: true, role: UserRole.EMPLOYER },
+    },
     // Candidate routes
     {
       path: ROUTES.CANDIDATE_DASHBOARD,
@@ -63,6 +69,12 @@ const router = createRouter({
       path: ROUTES.CANDIDATE_PIPELINE,
       name: 'candidate-pipeline',
       component: () => import('../views/candidate/CandidatePipelineView.vue'),
+      meta: { requiresAuth: true, role: UserRole.CANDIDATE },
+    },
+    {
+      path: ROUTES.CANDIDATE_JOBS,
+      name: 'candidate-jobs',
+      component: () => import('../views/candidate/CandidateJobBoardView.vue'),
       meta: { requiresAuth: true, role: UserRole.CANDIDATE },
     },
   ],

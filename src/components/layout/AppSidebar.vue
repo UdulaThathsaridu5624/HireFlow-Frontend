@@ -67,7 +67,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
-import { LayoutDashboard, Users, Calendar, TrendingUp, ChevronsUpDown, LogOut } from 'lucide-vue-next'
+import { LayoutDashboard, Users, Calendar, TrendingUp, ChevronsUpDown, LogOut, Briefcase } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { ROUTES } from '@/constants'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
@@ -103,11 +103,14 @@ const initials = computed(() =>
 
 const employerNav = [
   { to: ROUTES.EMPLOYER_DASHBOARD, label: 'Dashboard', icon: LayoutDashboard },
+  { to: ROUTES.EMPLOYER_JOBS, label: 'Job Listings', icon: Briefcase },   // ← ADD THIS
   { to: ROUTES.EMPLOYER_PIPELINES, label: 'Hiring Pipelines', icon: Users },
   { to: ROUTES.EMPLOYER_INTERVIEWS, label: 'Interviews', icon: Calendar },
 ]
+
 const candidateNav = [
   { to: ROUTES.CANDIDATE_DASHBOARD, label: 'Dashboard', icon: LayoutDashboard },
+  { to: ROUTES.CANDIDATE_JOBS, label: 'Browse Jobs', icon: Briefcase },   // ← ADD THIS
   { to: ROUTES.CANDIDATE_INTERVIEWS, label: 'My Interviews', icon: Calendar },
   { to: ROUTES.CANDIDATE_PIPELINE, label: 'My Applications', icon: TrendingUp },
 ]

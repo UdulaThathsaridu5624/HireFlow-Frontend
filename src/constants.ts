@@ -37,10 +37,12 @@ export const ROUTES = {
   LOGIN: '/login',
   REGISTER: '/register',
   EMPLOYER_DASHBOARD: '/employer/dashboard',
+  EMPLOYER_JOBS: '/employer/jobs', // ← ADD THIS
   EMPLOYER_PIPELINES: '/employer/pipelines',
   EMPLOYER_PIPELINE_DETAIL: '/employer/pipelines/:id',
   EMPLOYER_INTERVIEWS: '/employer/interviews',
   CANDIDATE_DASHBOARD: '/candidate/dashboard',
+  CANDIDATE_JOBS: '/candidate/jobs', // ← ADD THIS
   CANDIDATE_INTERVIEWS: '/candidate/interviews',
   CANDIDATE_PIPELINE: '/candidate/pipeline',
 } as const
