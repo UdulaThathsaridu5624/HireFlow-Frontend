@@ -76,6 +76,7 @@ import {
   Building2,
   ChevronsUpDown,
   LogOut,
+  Briefcase,
 } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { ROUTES } from '@/constants'
@@ -117,12 +118,15 @@ const initials = computed(() =>
 
 const employerNav = [
   { to: ROUTES.EMPLOYER_DASHBOARD, label: 'Dashboard', icon: LayoutDashboard },
+  { to: ROUTES.EMPLOYER_JOBS, label: 'Job Listings', icon: Briefcase },   // ← ADD THIS
   { to: ROUTES.EMPLOYER_PIPELINES, label: 'Hiring Pipelines', icon: Users },
   { to: ROUTES.EMPLOYER_INTERVIEWS, label: 'Interviews', icon: Calendar },
   { to: ROUTES.EMPLOYER_COMPANY, label: 'Company Profile', icon: Building2 },
 ]
+
 const candidateNav = [
   { to: ROUTES.CANDIDATE_DASHBOARD, label: 'Dashboard', icon: LayoutDashboard },
+  { to: ROUTES.CANDIDATE_JOBS, label: 'Browse Jobs', icon: Briefcase },
   { to: ROUTES.CANDIDATE_COMPANIES, label: 'Explore Companies', icon: Building2 },
   { to: ROUTES.CANDIDATE_INTERVIEWS, label: 'My Interviews', icon: Calendar },
   { to: ROUTES.CANDIDATE_PIPELINE, label: 'My Applications', icon: TrendingUp },
