@@ -1,9 +1,10 @@
 <template>
   <div class="flex flex-col gap-5 py-2">
-
     <!-- Title -->
     <div class="flex flex-col gap-1.5">
-      <label class="text-sm font-medium text-foreground">Job Title <span class="text-destructive">*</span></label>
+      <label class="text-sm font-medium text-foreground"
+        >Job Title <span class="text-destructive">*</span></label
+      >
       <input
         v-model="form.title"
         class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -14,7 +15,9 @@
 
     <!-- Description -->
     <div class="flex flex-col gap-1.5">
-      <label class="text-sm font-medium text-foreground">Description <span class="text-destructive">*</span></label>
+      <label class="text-sm font-medium text-foreground"
+        >Description <span class="text-destructive">*</span></label
+      >
       <textarea
         v-model="form.description"
         rows="4"
@@ -26,7 +29,9 @@
 
     <!-- Required Skills -->
     <div class="flex flex-col gap-1.5">
-      <label class="text-sm font-medium text-foreground">Required Skills <span class="text-destructive">*</span></label>
+      <label class="text-sm font-medium text-foreground"
+        >Required Skills <span class="text-destructive">*</span></label
+      >
       <div class="flex gap-2">
         <input
           v-model="skillInput"
@@ -47,13 +52,17 @@
           {{ skill }} <X class="h-3 w-3 ml-1" />
         </Badge>
       </div>
-      <p v-if="errors.requiredSkills" class="text-xs text-destructive">{{ errors.requiredSkills }}</p>
+      <p v-if="errors.requiredSkills" class="text-xs text-destructive">
+        {{ errors.requiredSkills }}
+      </p>
     </div>
 
     <!-- Location + Remote -->
     <div class="grid grid-cols-2 gap-4">
       <div class="flex flex-col gap-1.5">
-        <label class="text-sm font-medium text-foreground">Location <span class="text-destructive">*</span></label>
+        <label class="text-sm font-medium text-foreground"
+          >Location <span class="text-destructive">*</span></label
+        >
         <input
           v-model="form.location"
           class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -64,7 +73,12 @@
       <div class="flex flex-col gap-1.5">
         <label class="text-sm font-medium text-foreground">Work Type</label>
         <div class="flex items-center gap-3 h-10">
-          <input id="remote" v-model="form.isRemote" type="checkbox" class="h-4 w-4 accent-primary" />
+          <input
+            id="remote"
+            v-model="form.isRemote"
+            type="checkbox"
+            class="h-4 w-4 accent-primary"
+          />
           <label for="remote" class="text-sm text-foreground cursor-pointer">Remote / Hybrid</label>
         </div>
       </div>
@@ -106,7 +120,9 @@
 
     <!-- Deadline -->
     <div class="flex flex-col gap-1.5">
-      <label class="text-sm font-medium text-foreground">Application Deadline <span class="text-destructive">*</span></label>
+      <label class="text-sm font-medium text-foreground"
+        >Application Deadline <span class="text-destructive">*</span></label
+      >
       <input
         v-model="form.deadline"
         type="date"
@@ -158,21 +174,25 @@ const form = ref({
   deadline: '',
 })
 
-watch(() => props.initial, (job) => {
-  if (job) {
-    form.value = {
-      title: job.title,
-      description: job.description,
-      requiredSkills: [...job.requiredSkills],
-      location: job.location,
-      isRemote: job.isRemote,
-      salaryMin: job.salaryMin ?? undefined,
-      salaryMax: job.salaryMax ?? undefined,
-      salaryCurrency: job.salaryCurrency ?? 'USD',
-      deadline: job.deadline ? (job.deadline.split('T')[0] ?? '') : '',
+watch(
+  () => props.initial,
+  (job) => {
+    if (job) {
+      form.value = {
+        title: job.title,
+        description: job.description,
+        requiredSkills: [...job.requiredSkills],
+        location: job.location,
+        isRemote: job.isRemote,
+        salaryMin: job.salaryMin ?? undefined,
+        salaryMax: job.salaryMax ?? undefined,
+        salaryCurrency: job.salaryCurrency ?? 'USD',
+        deadline: job.deadline ? (job.deadline.split('T')[0] ?? '') : '',
+      }
     }
-  }
-}, { immediate: true })
+  },
+  { immediate: true },
+)
 
 function addSkill() {
   const s = skillInput.value.trim()
