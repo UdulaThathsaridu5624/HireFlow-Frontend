@@ -3,7 +3,9 @@
     <div class="flex flex-col gap-8">
       <div>
         <h1 class="text-2xl font-bold text-foreground">Welcome back, {{ authStore.name }}!</h1>
-        <p class="text-muted-foreground text-sm mt-1">Here's an overview of your hiring activity.</p>
+        <p class="text-muted-foreground text-sm mt-1">
+          Here's an overview of your hiring activity.
+        </p>
       </div>
 
       <!-- Stats -->
@@ -18,7 +20,10 @@
 
       <!-- Quick links -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card class="hover:shadow-md transition-shadow cursor-pointer" @click="router.push(ROUTES.EMPLOYER_PIPELINES)">
+        <Card
+          class="hover:shadow-md transition-shadow cursor-pointer"
+          @click="router.push(ROUTES.EMPLOYER_PIPELINES)"
+        >
           <CardHeader>
             <CardTitle class="flex items-center gap-2 text-base">
               <Users class="h-5 w-5 text-primary" /> Hiring Pipelines
@@ -26,13 +31,20 @@
             <CardDescription>View and manage all active candidate pipelines.</CardDescription>
           </CardHeader>
           <CardFooter>
-            <Button variant="outline" size="sm" @click.stop="router.push(ROUTES.EMPLOYER_PIPELINES)">
+            <Button
+              variant="outline"
+              size="sm"
+              @click.stop="router.push(ROUTES.EMPLOYER_PIPELINES)"
+            >
               Go to Pipelines <ArrowRight class="h-3.5 w-3.5 ml-1" />
             </Button>
           </CardFooter>
         </Card>
 
-        <Card class="hover:shadow-md transition-shadow cursor-pointer" @click="router.push(ROUTES.EMPLOYER_INTERVIEWS)">
+        <Card
+          class="hover:shadow-md transition-shadow cursor-pointer"
+          @click="router.push(ROUTES.EMPLOYER_INTERVIEWS)"
+        >
           <CardHeader>
             <CardTitle class="flex items-center gap-2 text-base">
               <Calendar class="h-5 w-5 text-primary" /> Interviews
@@ -40,7 +52,11 @@
             <CardDescription>Schedule and manage candidate interviews.</CardDescription>
           </CardHeader>
           <CardFooter>
-            <Button variant="outline" size="sm" @click.stop="router.push(ROUTES.EMPLOYER_INTERVIEWS)">
+            <Button
+              variant="outline"
+              size="sm"
+              @click.stop="router.push(ROUTES.EMPLOYER_INTERVIEWS)"
+            >
               Go to Interviews <ArrowRight class="h-3.5 w-3.5 ml-1" />
             </Button>
           </CardFooter>
@@ -54,8 +70,14 @@
         </CardHeader>
         <CardContent>
           <div class="flex flex-wrap gap-2">
-            <Badge v-for="(count, stage) in stageCounts" :key="stage" variant="outline" class="text-sm px-3 py-1">
-              {{ STAGE_LABELS[stage as HiringStage] }}: <span class="font-bold ml-1">{{ count }}</span>
+            <Badge
+              v-for="(count, stage) in stageCounts"
+              :key="stage"
+              variant="outline"
+              class="text-sm px-3 py-1"
+            >
+              {{ STAGE_LABELS[stage as HiringStage] }}:
+              <span class="font-bold ml-1">{{ count }}</span>
             </Badge>
           </div>
         </CardContent>
@@ -65,49 +87,79 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, onMounted, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { Users, Calendar, ArrowRight } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { usePipelineStore } from '@/stores/pipeline'
 import { useInterviewStore } from '@/stores/interview'
+import { useJobStore } from '@/stores/jobs'
 import { ROUTES, STAGE_LABELS, HiringStage, InterviewStatus } from '@/constants'
 import AppShell from '@/components/layout/AppShell.vue'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+} from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 
 const router = useRouter()
+const route = useRoute()
 const authStore = useAuthStore()
 const pipelineStore = usePipelineStore()
 const interviewStore = useInterviewStore()
+const jobStore = useJobStore()
 
-onMounted(() => {
+function fetchData() {
   pipelineStore.fetchForEmployer()
   interviewStore.fetchForEmployer()
+  jobStore.fetchMyJobs()
+}
+
+onMounted(() => {
+  fetchData()
 })
 
-const upcomingInterviews = computed(() =>
-  interviewStore.interviews.filter(
-    (i) => i.status === InterviewStatus.SCHEDULED || i.status === InterviewStatus.ACCEPTED,
-  ),
+// Specifically watch for route changes to this component to re-fetch data
+watch(
+  () => route.fullPath,
+  () => {
+    if (route.name === 'employer-dashboard') {
+      fetchData()
+    }
+  },
 )
 
-const stats = computed(() => [
-  { label: 'Total Pipelines', value: pipelineStore.pipelines.length },
-  { label: 'Upcoming Interviews', value: upcomingInterviews.value.length },
-  {
-    label: 'In Interview Stage',
-    value: pipelineStore.pipelines.filter((p) => p.currentStage === HiringStage.INTERVIEW).length,
-  },
-  {
-    label: 'Offers Made',
-    value: pipelineStore.pipelines.filter((p) => p.currentStage === HiringStage.OFFER || p.currentStage === HiringStage.HIRED).length,
-  },
-])
+const upcomingInterviews = computed(
+  () =>
+    interviewStore.interviews?.filter(
+      (i) => i.status === InterviewStatus.SCHEDULED || i.status === InterviewStatus.ACCEPTED,
+    ) ?? [],
+)
+
+const stats = computed(() => {
+  if (!pipelineStore.pipelines) return []
+  return [
+    { label: 'Active Jobs', value: jobStore.myJobs.filter(j => j.status === 'open').length },
+    { label: 'Upcoming Interviews', value: upcomingInterviews.value?.length ?? 0 },
+    {
+      label: 'In Interview',
+      value: pipelineStore.pipelines.filter((p) => p.currentStage === HiringStage.INTERVIEW).length,
+    },
+    {
+      label: 'Applications',
+      value: pipelineStore.pipelines.length,
+    },
+  ]
+})
 
 const stageCounts = computed(() => {
   const counts: Partial<Record<HiringStage, number>> = {}
+  if (!pipelineStore.pipelines) return counts
   for (const p of pipelineStore.pipelines) {
     counts[p.currentStage] = (counts[p.currentStage] ?? 0) + 1
   }
