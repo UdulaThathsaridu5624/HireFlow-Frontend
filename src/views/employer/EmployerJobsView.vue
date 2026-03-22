@@ -54,7 +54,7 @@
       </div>
 
       <!-- Jobs list -->
-      <div v-else class="space-y-4">
+      <div v-else class="flex flex-col gap-4">
         <div
           v-for="job in jobStore.myJobs"
           :key="job.id"

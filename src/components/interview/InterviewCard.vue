@@ -1,10 +1,12 @@
 <template>
   <Card class="editorial-shadow">
-    <CardContent class="pt-5 space-y-3">
+    <CardContent class="pt-1pb-1 space-y-3">
       <div class="flex items-start justify-between gap-2">
         <div>
           <p class="font-semibold text-foreground">{{ interview.jobTitle ?? 'Job Interview' }}</p>
-          <p v-if="interview.candidateName" class="text-sm text-muted-foreground">{{ interview.candidateName }}</p>
+          <p v-if="interview.candidateName" class="text-sm text-muted-foreground">
+            {{ interview.candidateName }}
+          </p>
         </div>
         <div class="flex gap-2 shrink-0">
           <Badge :variant="formatVariant">{{ formatLabel }}</Badge>
@@ -33,7 +35,9 @@
         <Link2 class="h-3 w-3" /> Join meeting
       </a>
 
-      <p v-if="interview.notes" class="text-xs text-muted-foreground border-t pt-2">{{ interview.notes }}</p>
+      <p v-if="interview.notes" class="text-xs text-muted-foreground border-t pt-2">
+        {{ interview.notes }}
+      </p>
 
       <!-- Candidate actions -->
       <div
@@ -78,11 +82,16 @@ const formatVariant = computed(() =>
 
 const statusVariant = computed(() => {
   switch (props.interview.status) {
-    case InterviewStatus.ACCEPTED: return 'default'
-    case InterviewStatus.DECLINED: return 'destructive'
-    case InterviewStatus.COMPLETED: return 'secondary'
-    case InterviewStatus.CANCELLED: return 'destructive'
-    default: return 'outline'
+    case InterviewStatus.ACCEPTED:
+      return 'default'
+    case InterviewStatus.DECLINED:
+      return 'destructive'
+    case InterviewStatus.COMPLETED:
+      return 'secondary'
+    case InterviewStatus.CANCELLED:
+      return 'destructive'
+    default:
+      return 'outline'
   }
 })
 </script>

@@ -118,7 +118,7 @@
         </div>
 
         <!-- Right: Pipeline Breakdown (1/3) -->
-        <div class="space-y-6">
+        <div class="flex flex-col gap-6">
           <div class="bg-card p-6 rounded-xl editorial-shadow">
             <h3 class="font-headline text-base font-extrabold text-foreground mb-4">Pipeline Breakdown</h3>
 

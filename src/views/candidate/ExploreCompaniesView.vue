@@ -1,6 +1,6 @@
 <template>
   <AppShell>
-    <div class="space-y-6">
+    <div class="flex flex-col gap-6">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h1 class="font-headline text-3xl font-extrabold tracking-tight text-foreground">Explore Companies</h1>
@@ -61,13 +61,13 @@
           class="flex flex-col group editorial-shadow hover:shadow-xl transition-all duration-300 border-border/50 hover:border-primary/40 cursor-pointer relative"
           @click="router.push({ name: 'candidate-company-detail', params: { id: company.id } })"
         >
-          <CardHeader class="flex flex-row items-start justify-between space-y-0 border-b pb-4 shrink-0">
+          <CardHeader class="flex flex-col gap-3 border-b pb-4 shrink-0">
             <div class="flex items-center gap-4">
-              <Avatar class="h-12 w-12 rounded-lg border group-hover:border-primary/30 transition-colors">
+              <Avatar class="h-12 w-12 rounded-lg border group-hover:border-primary/30 transition-colors shrink-0">
                 <AvatarImage :src="company.logoUrl" :alt="company.companyName" />
                 <AvatarFallback class="rounded-lg bg-primary/5 text-primary">{{ company.companyName.charAt(0) }}</AvatarFallback>
               </Avatar>
-              <div class="space-y-0.5 max-w-[140px]">
+              <div class="flex flex-col gap-0.5 min-w-0">
                 <CardTitle class="text-lg truncate group-hover:text-primary transition-colors">{{ company.companyName }}</CardTitle>
                 <div class="flex items-center text-xs text-muted-foreground">
                   <MapPin class="mr-1 h-3 w-3 text-primary/60 shrink-0" />
@@ -75,9 +75,9 @@
                 </div>
               </div>
             </div>
-            <Badge variant="outline" class="bg-primary/5 text-primary border-primary/10 shrink-0">{{ company.industry }}</Badge>
+            <Badge variant="outline" class="bg-primary/5 text-primary border-primary/10 self-start">{{ company.industry }}</Badge>
           </CardHeader>
-          <CardContent class="flex-1 space-y-4 py-6">
+          <CardContent class="flex-1 flex flex-col gap-4 py-6">
             <p class="text-sm text-muted-foreground leading-relaxed line-clamp-3">
               {{ company.background }}
             </p>
@@ -94,9 +94,10 @@
             </div>
           </CardContent>
           <CardFooter class="border-t bg-muted/30 flex justify-between items-center py-4" @click.stop>
-            <div class="flex items-center text-sm font-medium">
-              <Users class="mr-1.5 h-4 w-4 text-primary" />
-              {{ company.followersCount || 0 }} <span class="ml-1 text-muted-foreground font-normal">Followers</span>
+            <div class="flex items-center gap-1.5 text-sm">
+              <Users class="h-4 w-4 text-primary shrink-0" />
+              <span class="font-medium">{{ company.followersCount || 0 }}</span>
+              <span class="text-muted-foreground font-normal">Followers</span>
             </div>
             <Button 
               :variant="company.followedByMe ? 'secondary' : 'default'" 

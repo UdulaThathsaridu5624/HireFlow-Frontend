@@ -30,6 +30,7 @@ export interface ResumeRequest {
 }
 
 export interface CandidateProfilePayload {
+  fullName: string
   bio: string
   location: string
   linkedinUrl: string
@@ -74,6 +75,7 @@ export interface ResumeResponse {
 export interface CandidateProfileResponse {
   candidateId: string
   userId: string
+  fullName?: string
   bio: string
   location: string
   linkedinUrl: string

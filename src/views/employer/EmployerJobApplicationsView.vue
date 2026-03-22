@@ -28,7 +28,7 @@
       </div>
 
       <!-- Applications list -->
-      <div v-else class="space-y-4">
+      <div v-else class="flex flex-col gap-4">
         <div
           v-for="app in applications"
           :key="app.applicationId"
@@ -40,7 +40,7 @@
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 flex-wrap">
                 <h3 class="font-headline text-base font-semibold text-foreground">
-                  {{ app.candidateDetails?.bio || 'Candidate' }}
+                  {{ app.candidateDetails?.fullName || app.candidateDetails?.bio || 'Candidate' }}
                 </h3>
                 <Badge :variant="statusVariant(app.status)">
                   {{ formatStatus(app.status) }}

@@ -12,7 +12,7 @@
       <div v-else-if="!interviewStore.interviews.length" class="py-16 text-center text-muted-foreground/60 text-sm">
         No interviews scheduled yet.
       </div>
-      <div v-else class="space-y-4">
+      <div v-else class="flex flex-col gap-4">
         <InterviewCard
           v-for="interview in interviewStore.interviews"
           :key="interview.id"

@@ -50,6 +50,6 @@ export default {
   },
 
   withdrawApplication(applicationId: string) {
-    return cvApi.delete<ApplicationResponse>(`/api/cv/applications/${applicationId}`)
+    return cvApi.patch<ApplicationResponse>(`/api/cv/applications/${applicationId}/withdraw`)
   },
 }

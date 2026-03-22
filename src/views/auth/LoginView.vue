@@ -1,7 +1,9 @@
 <template>
   <div class="min-h-screen flex">
     <!-- Left Panel — Branding -->
-    <div class="hidden lg:flex lg:w-1/2 gradient-cta relative overflow-hidden flex-col justify-between p-12">
+    <div
+      class="hidden lg:flex lg:w-1/2 gradient-cta relative overflow-hidden flex-col justify-between p-12"
+    >
       <div class="relative z-10">
         <h1 class="font-headline text-4xl font-extrabold text-white tracking-tight">HireFlow</h1>
         <p class="text-white/70 text-sm mt-1">Your Career, Curated.</p>
@@ -11,29 +13,36 @@
           Find the right talent.<br />Land the right role.
         </h2>
         <p class="text-white/60 mt-4 text-sm leading-relaxed">
-          HireFlow connects employers with top candidates through a streamlined hiring pipeline — from application to offer.
+          HireFlow connects employers with top candidates through a streamlined hiring pipeline —
+          from application to offer.
         </p>
       </div>
       <div class="relative z-10 text-white/40 text-xs">
         &copy; {{ new Date().getFullYear() }} HireFlow. All rights reserved.
       </div>
       <!-- Decorative blur -->
-      <div class="absolute right-[-20%] top-[-20%] w-[500px] h-[500px] bg-white/5 rounded-full blur-[100px]"></div>
-      <div class="absolute left-[-10%] bottom-[-10%] w-[300px] h-[300px] bg-white/5 rounded-full blur-[80px]"></div>
+      <div
+        class="absolute right-[-20%] top-[-20%] w-[500px] h-[500px] bg-white/5 rounded-full blur-[100px]"
+      ></div>
+      <div
+        class="absolute left-[-10%] bottom-[-10%] w-[300px] h-[300px] bg-white/5 rounded-full blur-[80px]"
+      ></div>
     </div>
 
     <!-- Right Panel — Form -->
     <div class="flex-1 flex items-center justify-center px-6 py-12 bg-background">
       <div class="w-full max-w-md">
         <div class="lg:hidden mb-8">
-          <h1 class="font-headline text-2xl font-extrabold text-primary tracking-tight">HireFlow</h1>
+          <h1 class="font-headline text-2xl font-extrabold text-primary tracking-tight">
+            HireFlow
+          </h1>
         </div>
 
         <h2 class="font-headline text-2xl font-bold text-foreground mb-2">Welcome back</h2>
-        <p class="text-muted-foreground text-sm mb-8">Sign in to your HireFlow account</p>
+        <p class="text-muted-foreground text-sm mb-10">Sign in to your HireFlow account</p>
 
-        <form @submit.prevent="handleLogin" class="space-y-5">
-          <div class="space-y-2">
+        <form @submit.prevent="handleLogin" class="flex flex-col gap-4">
+          <div class="flex flex-col gap-2">
             <label for="login-email" class="block text-sm font-medium text-foreground">Email</label>
             <Input
               id="login-email"
@@ -41,17 +50,21 @@
               type="email"
               required
               placeholder="you@example.com"
+              class="h-11"
             />
           </div>
 
-          <div class="space-y-2">
-            <label for="login-password" class="block text-sm font-medium text-foreground">Password</label>
+          <div class="flex flex-col gap-2">
+            <label for="login-password" class="block text-sm font-medium text-foreground"
+              >Password</label
+            >
             <Input
               id="login-password"
               v-model="password"
               type="password"
               required
               placeholder="Enter your password"
+              class="h-11"
             />
           </div>
 
@@ -60,7 +73,7 @@
           <button
             type="submit"
             :disabled="loading"
-            class="w-full gradient-cta font-semibold py-2.5 rounded-lg transition-opacity disabled:opacity-60 active:scale-[0.98] duration-200"
+            class="w-full gradient-cta font-semibold py-3 rounded-lg transition-opacity disabled:opacity-60 active:scale-[0.98] duration-200"
           >
             {{ loading ? 'Signing in...' : 'Sign in' }}
           </button>

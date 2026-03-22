@@ -13,6 +13,7 @@ export const useCvStore = defineStore('cv', () => {
     return {
       candidateId: data.candidateId,
       userId: data.userId,
+      fullName: data.fullName ?? '',
       bio: data.bio ?? '',
       location: data.location ?? '',
       linkedinUrl: data.linkedinUrl ?? '',

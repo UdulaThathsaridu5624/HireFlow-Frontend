@@ -5,24 +5,34 @@
         <Button><CalendarPlus class="h-4 w-4 mr-2" />Schedule Interview</Button>
       </slot>
     </DialogTrigger>
-    <DialogContent class="sm:max-w-md">
+    <DialogContent class="sm:max-w-lg">
       <DialogHeader>
         <DialogTitle>Schedule Interview</DialogTitle>
         <DialogDescription>Fill in the interview details for this candidate.</DialogDescription>
       </DialogHeader>
 
-      <form @submit.prevent="handleSubmit" class="space-y-4 mt-2">
-        <div class="space-y-1.5">
-          <Label for="scheduledAt">Date & Time</Label>
-          <Input id="scheduledAt" type="datetime-local" v-model="form.scheduledAt" required />
+      <form @submit.prevent="handleSubmit" class="flex flex-col gap-5 mt-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="flex flex-col gap-2">
+            <Label>Date & Time</Label>
+            <VueDatePicker
+              v-model="form.scheduledAt"
+              :dark="isDarkMode"
+              model-type="iso"
+              :enable-time-picker="true"
+              :time-picker-inline="false"
+              auto-apply
+              placeholder="Select date & time"
+            />
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <Label for="duration">Duration (minutes)</Label>
+            <Input id="duration" type="number" v-model.number="form.durationMinutes" min="15" max="240" required />
+          </div>
         </div>
 
-        <div class="space-y-1.5">
-          <Label for="duration">Duration (minutes)</Label>
-          <Input id="duration" type="number" v-model.number="form.durationMinutes" min="15" max="240" required />
-        </div>
-
-        <div class="space-y-1.5">
+        <div class="flex flex-col gap-2">
           <Label>Format</Label>
           <Select v-model="form.format">
             <SelectTrigger>
@@ -35,13 +45,13 @@
           </Select>
         </div>
 
-        <div v-if="form.format === InterviewFormat.ONLINE" class="space-y-1.5">
+        <div v-if="form.format === InterviewFormat.ONLINE" class="flex flex-col gap-2">
           <Label for="meetingLink">Meeting Link</Label>
           <Input id="meetingLink" type="url" v-model="form.meetingLink" placeholder="https://meet.google.com/..." />
         </div>
 
-        <div class="space-y-1.5">
-          <Label for="notes">Notes (optional)</Label>
+        <div class="flex flex-col gap-2">
+          <Label for="notes">Notes <span class="text-muted-foreground font-normal">(optional)</span></Label>
           <Textarea id="notes" v-model="form.notes" rows="3" placeholder="Any instructions for the candidate..." />
         </div>
 
@@ -60,6 +70,9 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { CalendarPlus } from 'lucide-vue-next'
+import { VueDatePicker } from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
+import { useColorMode } from '@vueuse/core'
 import { InterviewFormat } from '@/constants'
 import type { CreateInterviewDto } from '@/types/interview'
 import { useInterviewStore } from '@/stores/interview'
@@ -85,9 +98,11 @@ const emit = defineEmits<{ scheduled: [] }>()
 const open = ref(false)
 const submitting = ref(false)
 const interviewStore = useInterviewStore()
+const colorMode = useColorMode()
+const isDarkMode = ref(colorMode.value === 'dark')
 
 const form = reactive({
-  scheduledAt: '',
+  scheduledAt: null as string | null,
   durationMinutes: 60,
   format: InterviewFormat.ONLINE,
   meetingLink: '',
@@ -95,6 +110,10 @@ const form = reactive({
 })
 
 async function handleSubmit() {
+  if (!form.scheduledAt) {
+    toast.error('Please select a date and time')
+    return
+  }
   submitting.value = true
   try {
     const dto: CreateInterviewDto = {

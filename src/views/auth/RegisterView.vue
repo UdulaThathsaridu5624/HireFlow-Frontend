@@ -1,7 +1,9 @@
 <template>
   <div class="min-h-screen flex">
     <!-- Left Panel — Branding -->
-    <div class="hidden lg:flex lg:w-1/2 gradient-cta relative overflow-hidden flex-col justify-between p-12">
+    <div
+      class="hidden lg:flex lg:w-1/2 gradient-cta relative overflow-hidden flex-col justify-between p-12"
+    >
       <div class="relative z-10">
         <h1 class="font-headline text-4xl font-extrabold text-white tracking-tight">HireFlow</h1>
         <p class="text-white/70 text-sm mt-1">Your Career, Curated.</p>
@@ -11,39 +13,49 @@
           Start your journey<br />with HireFlow today.
         </h2>
         <p class="text-white/60 mt-4 text-sm leading-relaxed">
-          Whether you're hiring or seeking, HireFlow gives you the tools to manage the entire process — from posting to offer.
+          Whether you're hiring or seeking, HireFlow gives you the tools to manage the entire
+          process — from posting to offer.
         </p>
       </div>
       <div class="relative z-10 text-white/40 text-xs">
         &copy; {{ new Date().getFullYear() }} HireFlow. All rights reserved.
       </div>
-      <div class="absolute right-[-20%] top-[-20%] w-125 h-125 bg-white/5 rounded-full blur-[100px]"></div>
-      <div class="absolute left-[-10%] bottom-[-10%] w-75 h-75 bg-white/5 rounded-full blur-[80px]"></div>
+      <div
+        class="absolute right-[-20%] top-[-20%] w-125 h-125 bg-white/5 rounded-full blur-[100px]"
+      ></div>
+      <div
+        class="absolute left-[-10%] bottom-[-10%] w-75 h-75 bg-white/5 rounded-full blur-[80px]"
+      ></div>
     </div>
 
     <!-- Right Panel — Form -->
     <div class="flex-1 flex items-center justify-center px-6 py-12 bg-background">
       <div class="w-full max-w-md">
         <div class="lg:hidden mb-8">
-          <h1 class="font-headline text-2xl font-extrabold text-primary tracking-tight">HireFlow</h1>
+          <h1 class="font-headline text-2xl font-extrabold text-primary tracking-tight">
+            HireFlow
+          </h1>
         </div>
 
         <h2 class="font-headline text-2xl font-bold text-foreground mb-2">Create an account</h2>
-        <p class="text-muted-foreground text-sm mb-8">Join HireFlow as an Employer or Candidate</p>
+        <p class="text-muted-foreground text-sm mb-10">Join HireFlow as an Employer or Candidate</p>
 
-        <form @submit.prevent="handleRegister" class="space-y-5">
-          <div class="space-y-2">
-            <label for="reg-name" class="block text-sm font-medium text-foreground">Full Name</label>
+        <form @submit.prevent="handleRegister" class="flex flex-col gap-3">
+          <div class="flex flex-col gap-2">
+            <label for="reg-name" class="block text-sm font-medium text-foreground"
+              >Full Name</label
+            >
             <Input
               id="reg-name"
               v-model="name"
               type="text"
               required
               placeholder="John Doe"
+              class="h-11"
             />
           </div>
 
-          <div class="space-y-2">
+          <div class="flex flex-col gap-2">
             <label for="reg-email" class="block text-sm font-medium text-foreground">Email</label>
             <Input
               id="reg-email"
@@ -51,21 +63,25 @@
               type="email"
               required
               placeholder="you@example.com"
+              class="h-11"
             />
           </div>
 
-          <div class="space-y-2">
-            <label for="reg-password" class="block text-sm font-medium text-foreground">Password</label>
+          <div class="flex flex-col gap-2">
+            <label for="reg-password" class="block text-sm font-medium text-foreground"
+              >Password</label
+            >
             <Input
               id="reg-password"
               v-model="password"
               type="password"
               required
               placeholder="Min. 6 characters"
+              class="h-11"
             />
           </div>
 
-          <fieldset class="space-y-3">
+          <fieldset class="flex flex-col gap-3">
             <legend class="block text-sm font-medium text-foreground">I am a...</legend>
             <div class="grid grid-cols-2 gap-3">
               <label
@@ -100,7 +116,7 @@
           <button
             type="submit"
             :disabled="loading || !role"
-            class="w-full gradient-cta font-semibold py-2.5 rounded-lg transition-opacity disabled:opacity-60 active:scale-[0.98] duration-200"
+            class="w-full gradient-cta font-semibold py-3 rounded-lg transition-opacity disabled:opacity-60 active:scale-[0.98] duration-200"
           >
             {{ loading ? 'Creating account...' : 'Create account' }}
           </button>

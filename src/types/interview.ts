@@ -53,8 +53,8 @@ export interface HiringPipeline {
 
 export interface StageHistoryEntry {
   stage: HiringStage
-  changedAt: string
-  note?: string
+  updatedAt: string
+  notes?: string
 }
 
 export interface UpdateStageDto {

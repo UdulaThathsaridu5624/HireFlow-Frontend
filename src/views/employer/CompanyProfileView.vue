@@ -24,7 +24,7 @@
         <Button class="gradient-cta" @click="startCreate"> <Plus class="h-4 w-4 mr-2" /> Create Profile </Button>
       </div>
 
-      <div v-if="companyStore.company && !isEditing" class="space-y-6">
+      <div v-if="companyStore.company && !isEditing" class="flex flex-col gap-6">
         <!-- Analytics Section -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card class="p-4 editorial-shadow border-l-4 border-primary">
@@ -54,7 +54,7 @@
               </div>
               <div>
                 <p class="text-xs text-muted-foreground uppercase font-semibold">Jobs</p>
-                <h3 class="text-xl font-bold">{{ companyStore.analytics?.jobPosts || 0 }}</h3>
+                <h3 class="text-xl font-bold">{{ jobStore.myJobs.length }}</h3>
               </div>
             </div>
           </Card>
@@ -94,8 +94,12 @@
                 <span class="flex items-center gap-1"
                   ><Briefcase class="h-3.5 w-3.5" /> {{ companyStore.company.industry }}</span
                 >
-                <span class="flex items-center gap-1"
-                  ><Globe class="h-3.5 w-3.5" /> {{ companyStore.company.website }}</span
+                <a
+                  :href="companyStore.company.website"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex items-center gap-1 hover:text-primary hover:underline transition-colors"
+                  ><Globe class="h-3.5 w-3.5" /> {{ companyStore.company.website }}</a
                 >
               </div>
             </div>
@@ -108,7 +112,7 @@
               </Button>
             </div>
           </CardHeader>
-          <CardContent class="space-y-6">
+          <CardContent class="flex flex-col gap-6">
             <div>
               <h4 class="font-headline text-sm font-semibold text-foreground mb-2">Background</h4>
               <p class="text-sm text-muted-foreground leading-relaxed">
@@ -136,9 +140,9 @@
           <CardTitle class="font-headline">{{ editingId ? 'Update' : 'Create' }} Company Profile</CardTitle>
         </CardHeader>
         <CardContent>
-          <form @submit.prevent="handleSubmit" class="space-y-6">
+          <form @submit.prevent="handleSubmit" class="flex flex-col gap-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div class="space-y-2">
+              <div class="flex flex-col gap-2">
                 <label class="text-sm font-medium">Company Name</label>
                 <Input
                   v-model="form.companyName"
@@ -146,7 +150,7 @@
                   placeholder="e.g. HireFlow Tech"
                 />
               </div>
-              <div class="space-y-2">
+              <div class="flex flex-col gap-2">
                 <label class="text-sm font-medium">Industry</label>
                 <Input
                   v-model="form.industry"
@@ -154,7 +158,7 @@
                   placeholder="e.g. IT, Healthcare"
                 />
               </div>
-              <div class="space-y-2">
+              <div class="flex flex-col gap-2">
                 <label class="text-sm font-medium">Location</label>
                 <Input
                   v-model="form.location"
@@ -162,7 +166,7 @@
                   placeholder="e.g. Colombo, Sri Lanka"
                 />
               </div>
-              <div class="space-y-2">
+              <div class="flex flex-col gap-2">
                 <label class="text-sm font-medium">Website URL</label>
                 <Input
                   v-model="form.website"
@@ -173,7 +177,7 @@
               </div>
             </div>
 
-            <div class="space-y-2">
+            <div class="flex flex-col gap-2">
               <label class="text-sm font-medium">Company Background</label>
               <Textarea
                 v-model="form.background"
@@ -183,15 +187,15 @@
               />
             </div>
 
-            <div class="space-y-2">
-              <label class="text-sm font-medium">Culture Tags (Comma separated)</label>
+            <div class="flex flex-col gap-2">
+              <label class="text-sm font-medium">Culture Tags</label>
               <Input
                 v-model="cultureTagsInput"
                 placeholder="Remote-First, High-Growth, Inclusive"
               />
             </div>
 
-            <div class="space-y-2">
+            <div class="flex flex-col gap-2">
               <label class="text-sm font-medium">Company Logo</label>
               <div class="mt-1 flex items-center gap-4">
                 <div
@@ -248,6 +252,7 @@
 import { ref, onMounted, reactive } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useCompanyStore } from '@/stores/company'
+import { useJobStore } from '@/stores/jobs'
 import {
   Building2,
   Plus,
@@ -275,6 +280,7 @@ import { toast } from 'vue-sonner'
 
 const authStore = useAuthStore()
 const companyStore = useCompanyStore()
+const jobStore = useJobStore()
 
 const isEditing = ref(false)
 const editingId = ref<number | null>(null)
@@ -299,6 +305,7 @@ onMounted(async () => {
     if (companyStore.company?.id) {
       await companyStore.fetchAnalytics(companyStore.company.id)
     }
+    await jobStore.fetchMyJobs()
   }
 })
 

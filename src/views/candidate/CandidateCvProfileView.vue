@@ -23,13 +23,17 @@
 
       <!-- Display Mode -->
       <template v-else-if="cvStore.profile && !isEditing">
-        <div class="space-y-6">
+        <div class="flex flex-col gap-6">
           <!-- Basic Info Card -->
           <Card class="editorial-shadow">
             <CardHeader>
               <CardTitle class="font-headline">Basic Information</CardTitle>
             </CardHeader>
-            <CardContent class="space-y-4">
+            <CardContent class="flex flex-col gap-4">
+              <div>
+                <p class="text-xs font-semibold text-muted-foreground uppercase">Full Name</p>
+                <p class="text-sm text-foreground mt-1">{{ cvStore.profile.fullName || '-' }}</p>
+              </div>
               <div>
                 <p class="text-xs font-semibold text-muted-foreground uppercase">Bio</p>
                 <p class="text-sm text-foreground mt-1 whitespace-pre-wrap">{{ cvStore.profile.bio || '-' }}</p>
@@ -64,7 +68,7 @@
               <CardTitle class="font-headline">Skills</CardTitle>
             </CardHeader>
             <CardContent>
-              <div class="space-y-3">
+              <div class="flex flex-col gap-3">
                 <div
                   v-for="(skill, idx) in cvStore.profile.skills"
                   :key="`skill-display-${idx}`"
@@ -85,7 +89,7 @@
             <CardHeader>
               <CardTitle class="font-headline">Education</CardTitle>
             </CardHeader>
-            <CardContent class="space-y-4">
+            <CardContent class="flex flex-col gap-4">
               <div
                 v-for="(edu, idx) in cvStore.profile.education"
                 :key="`edu-display-${idx}`"
@@ -109,7 +113,7 @@
             <CardHeader>
               <CardTitle class="font-headline">Work Experience</CardTitle>
             </CardHeader>
-            <CardContent class="space-y-4">
+            <CardContent class="flex flex-col gap-4">
               <div
                 v-for="(exp, idx) in cvStore.profile.workExperience"
                 :key="`exp-display-${idx}`"
@@ -133,7 +137,7 @@
               <CardTitle class="font-headline">Resumes</CardTitle>
             </CardHeader>
             <CardContent>
-              <div class="space-y-2">
+              <div class="flex flex-col gap-2">
                 <div
                   v-for="(resume, idx) in cvStore.profile.resumes"
                   :key="`resume-display-${idx}`"
@@ -163,11 +167,18 @@
       <!-- Edit Form Mode -->
       <Card v-else class="editorial-shadow">
         <CardContent class="pt-6">
-          <form class="space-y-8" @submit.prevent="handleSave">
-            <section class="space-y-4">
+          <form class="flex flex-col gap-8" @submit.prevent="handleSave">
+            <section class="flex flex-col gap-4">
               <h2 class="font-headline text-lg font-semibold text-foreground">Personal Information</h2>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="space-y-2 md:col-span-2">
+                <div class="flex flex-col gap-2 md:col-span-2">
+                  <label class="text-sm font-medium">Full Name</label>
+                  <Input
+                    v-model="form.fullName"
+                    placeholder="e.g. John Smith"
+                  />
+                </div>
+                <div class="flex flex-col gap-2 md:col-span-2">
                   <label class="text-sm font-medium">Bio</label>
                   <Textarea
                     v-model="form.bio"
@@ -175,14 +186,14 @@
                     placeholder="Tell employers about yourself"
                   />
                 </div>
-                <div class="space-y-2">
+                <div class="flex flex-col gap-2">
                   <label class="text-sm font-medium">Location</label>
                   <Input
                     v-model="form.location"
                     placeholder="e.g. Colombo, Sri Lanka"
                   />
                 </div>
-                <div class="space-y-2">
+                <div class="flex flex-col gap-2">
                   <label class="text-sm font-medium">LinkedIn URL</label>
                   <Input
                     v-model="form.linkedinUrl"
@@ -193,7 +204,7 @@
               </div>
             </section>
 
-            <section class="space-y-4 py-6">
+            <section class="flex flex-col gap-4 py-6">
               <div class="flex items-center justify-between">
                 <h2 class="text-lg font-semibold text-foreground pb-6">Skills</h2>
                 <Button type="button" variant="outline" size="sm" @click="addSkill">
@@ -203,20 +214,20 @@
 
               <div v-if="!form.skills.length" class="text-sm text-muted-foreground">No skills added.</div>
 
-              <div class="pb-6">
+              <div class="flex flex-col gap-4 pb-6">
                   <div
                     v-for="(skill, index) in form.skills"
                     :key="`skill-${index}`"
-                    class="mb-4 last:mb-0 grid grid-cols-1 md:grid-cols-3 gap-3 rounded-lg border p-4"
+                    class="grid grid-cols-1 md:grid-cols-3 gap-3 rounded-lg border p-4"
                   >
-                    <div class="space-y-2">
+                    <div class="flex flex-col gap-2">
                       <label class="text-xs font-medium text-muted-foreground">Skill</label>
                       <Input
                         v-model="skill.name"
                         placeholder="Java, Vue, SQL"
                       />
                     </div>
-                    <div class="space-y-2">
+                    <div class="flex flex-col gap-2">
                       <label class="text-xs font-medium text-muted-foreground">Proficiency</label>
                       <Select v-model="skill.proficiencyLevel">
                         <SelectTrigger class="w-full">
@@ -230,7 +241,7 @@
                         </SelectContent>
                       </Select>
                     </div>
-                    <div class="space-y-2">
+                    <div class="flex flex-col gap-2">
                       <label class="text-xs font-medium text-muted-foreground">Years Experience</label>
                       <div class="flex gap-2">
                         <Input
@@ -249,7 +260,7 @@
               </div>
             </section>
 
-            <section class="space-y-4 py-6">
+            <section class="flex flex-col gap-4 py-6">
               <div class="flex items-center justify-between pb-4">
                 <h2 class="font-headline text-lg font-semibold text-foreground">Education</h2>
                 <Button type="button" variant="outline" size="sm" @click="addEducation">
@@ -262,7 +273,7 @@
               <div
                 v-for="(education, index) in form.education"
                 :key="`education-${index}`"
-                class="rounded-lg border p-4 space-y-3"
+                class="rounded-lg border p-4 flex flex-col gap-3"
               >
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pb-6">
                   <Input
@@ -281,7 +292,7 @@
                     v-model="education.grade"
                     placeholder="Grade"
                   />
-                  <div class="space-y-2">
+                  <div class="flex flex-col gap-2">
                     <label class="text-xs font-medium text-muted-foreground">Start Date</label>
                     <VueDatePicker
                       v-model="education.startDate"
@@ -293,7 +304,7 @@
                       placeholder="Select start date"
                     />
                   </div>
-                  <div class="space-y-2">
+                  <div class="flex flex-col gap-2">
                     <label class="text-xs font-medium text-muted-foreground">End Date</label>
                     <VueDatePicker
                       v-model="education.endDate"
@@ -319,7 +330,7 @@
               </div>
             </section>
 
-            <section class="space-y-4 py-6">
+            <section class="flex flex-col gap-4 py-6">
               <div class="flex items-center justify-between">
                 <h2 class="text-lg font-semibold text-foreground pb-6">Work Experience</h2>
                 <Button type="button" variant="outline" size="sm" @click="addWorkExperience">
@@ -334,7 +345,7 @@
               <div
                 v-for="(experience, index) in form.workExperience"
                 :key="`experience-${index}`"
-                class="rounded-lg border p-4 space-y-3"
+                class="rounded-lg border p-4 flex flex-col gap-3"
               >
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <Input
@@ -345,7 +356,7 @@
                     v-model="experience.jobTitle"
                     placeholder="Job title"
                   />
-                  <div class="space-y-2">
+                  <div class="flex flex-col gap-2">
                     <label class="text-xs font-medium text-muted-foreground">Start Date</label>
                     <VueDatePicker
                       v-model="experience.startDate"
@@ -357,7 +368,7 @@
                       placeholder="Select start date"
                     />
                   </div>
-                  <div class="space-y-2">
+                  <div class="flex flex-col gap-2">
                     <label class="text-xs font-medium text-muted-foreground">End Date</label>
                     <VueDatePicker
                       v-model="experience.endDate"
@@ -388,7 +399,7 @@
               </div>
             </section>
 
-            <section class="space-y-4">
+            <section class="flex flex-col gap-4">
               <div class="flex items-center justify-between pb-4">
                 <h2 class="font-headline text-lg font-semibold text-foreground">Resumes</h2>
                 <div class="flex items-center gap-2">
@@ -398,7 +409,7 @@
                 </div>
               </div>
 
-              <div class="rounded-lg border p-4 space-y-3">
+              <div class="rounded-lg border p-4 flex flex-col gap-3">
                 <p class="text-sm font-medium text-foreground">Upload Resume (PDF)</p>
                 <div class="flex flex-col md:flex-row md:items-center gap-3">
                   <input
@@ -428,7 +439,7 @@
               <div
                 v-for="(resume, index) in form.resumes"
                 :key="`resume-${index}`"
-                class="rounded-lg border p-4 space-y-3"
+                class="rounded-lg border p-4 flex flex-col gap-3"
               >
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <Input
@@ -506,6 +517,7 @@ const resumeFile = ref<File | null>(null)
 const uploadingResume = ref(false)
 
 const form = reactive<CandidateProfilePayload>({
+  fullName: '',
   bio: '',
   location: '',
   linkedinUrl: '',
@@ -567,6 +579,7 @@ function formatYears(value: number | null): string {
 }
 
 function resetForm() {
+  form.fullName = ''
   form.bio = ''
   form.location = ''
   form.linkedinUrl = ''
@@ -577,6 +590,7 @@ function resetForm() {
 }
 
 function mapToForm(profile: CandidateProfileResponse) {
+  form.fullName = profile.fullName ?? ''
   form.bio = profile.bio ?? ''
   form.location = profile.location ?? ''
   form.linkedinUrl = profile.linkedinUrl ?? ''
@@ -699,6 +713,7 @@ function cancelEdit() {
 
 function toPayload(): CandidateProfilePayload {
   return {
+    fullName: form.fullName.trim(),
     bio: form.bio.trim(),
     location: form.location.trim(),
     linkedinUrl: form.linkedinUrl.trim(),

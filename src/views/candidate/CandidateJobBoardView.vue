@@ -62,7 +62,7 @@
       </div>
 
       <!-- Job cards -->
-      <div v-else class="space-y-4">
+      <div v-else class="flex flex-col gap-4">
         <div
           v-for="job in jobStore.jobs"
           :key="job.id"
@@ -167,14 +167,14 @@
           </div>
 
           <!-- Description -->
-          <div>
-            <h4 class="font-headline text-sm font-semibold mb-2">Job Description</h4>
+          <div class="flex flex-col gap-2">
+            <h4 class="font-headline text-sm font-semibold">Job Description</h4>
             <p class="text-sm text-muted-foreground whitespace-pre-line">{{ selectedJob.description }}</p>
           </div>
 
           <!-- Skills -->
-          <div>
-            <h4 class="font-headline text-sm font-semibold mb-2">Required Skills</h4>
+          <div class="flex flex-col gap-2">
+            <h4 class="font-headline text-sm font-semibold">Required Skills</h4>
             <div class="flex flex-wrap gap-2">
               <Badge v-for="skill in selectedJob.requiredSkills" :key="skill" variant="secondary">
                 {{ skill }}
