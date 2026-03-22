@@ -169,7 +169,7 @@ watch(() => props.initial, (job) => {
       salaryMin: job.salaryMin ?? undefined,
       salaryMax: job.salaryMax ?? undefined,
       salaryCurrency: job.salaryCurrency ?? 'USD',
-      deadline: job.deadline ? job.deadline.split('T')[0] : '',
+      deadline: job.deadline.split('T')[0],
     }
   }
 }, { immediate: true })
