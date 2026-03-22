@@ -82,3 +82,15 @@ export interface CandidateProfileResponse {
   workExperience: WorkExperienceResponse[]
   resumes: ResumeResponse[]
 }
+
+export interface ApplicationResponse {
+  applicationId: string
+  candidateId: string
+  candidateDetails: CandidateProfileResponse | null
+  jobId: string
+  jobDetails: any
+  status: string
+  appliedAt: string
+  updatedAt: string
+  forwardedAt: string | null
+}

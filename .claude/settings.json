@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find 'e:/Edu/4th year/CTSE/Projects/HireFlow-Frontend/node_modules/.vite' -name companyApi*)"
+    ]
+  }
+}

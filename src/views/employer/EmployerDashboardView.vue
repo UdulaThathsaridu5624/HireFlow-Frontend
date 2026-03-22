@@ -93,6 +93,7 @@ import { Users, Calendar, ArrowRight } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { usePipelineStore } from '@/stores/pipeline'
 import { useInterviewStore } from '@/stores/interview'
+import { useJobStore } from '@/stores/jobs'
 import { ROUTES, STAGE_LABELS, HiringStage, InterviewStatus } from '@/constants'
 import AppShell from '@/components/layout/AppShell.vue'
 import {
@@ -111,10 +112,12 @@ const route = useRoute()
 const authStore = useAuthStore()
 const pipelineStore = usePipelineStore()
 const interviewStore = useInterviewStore()
+const jobStore = useJobStore()
 
 function fetchData() {
   pipelineStore.fetchForEmployer()
   interviewStore.fetchForEmployer()
+  jobStore.fetchMyJobs()
 }
 
 onMounted(() => {
@@ -141,17 +144,15 @@ const upcomingInterviews = computed(
 const stats = computed(() => {
   if (!pipelineStore.pipelines) return []
   return [
-    { label: 'Total Pipelines', value: pipelineStore.pipelines.length },
+    { label: 'Active Jobs', value: jobStore.myJobs.filter(j => j.status === 'open').length },
     { label: 'Upcoming Interviews', value: upcomingInterviews.value?.length ?? 0 },
     {
-      label: 'In Interview Stage',
+      label: 'In Interview',
       value: pipelineStore.pipelines.filter((p) => p.currentStage === HiringStage.INTERVIEW).length,
     },
     {
-      label: 'Offers Made',
-      value: pipelineStore.pipelines.filter(
-        (p) => p.currentStage === HiringStage.OFFER || p.currentStage === HiringStage.HIRED,
-      ).length,
+      label: 'Applications',
+      value: pipelineStore.pipelines.length,
     },
   ]
 })

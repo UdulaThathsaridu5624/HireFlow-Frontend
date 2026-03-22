@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { CandidateProfilePayload, CandidateProfileResponse, ResumeResponse } from '@/types/cv'
+import type { CandidateProfilePayload, CandidateProfileResponse, ResumeResponse, ApplicationResponse } from '@/types/cv'
 
 const cvApi = axios.create({
   baseURL: import.meta.env.VITE_CV_API_URL,
@@ -31,5 +31,25 @@ export default {
 
   upsertProfile(payload: CandidateProfilePayload) {
     return cvApi.put<CandidateProfileResponse>('/api/cv/profile', payload)
+  },
+
+  applyForJob(jobId: string) {
+    return cvApi.post<ApplicationResponse>('/api/cv/applications', { jobId })
+  },
+
+  getJobApplications(jobId: string) {
+    return cvApi.get<ApplicationResponse[]>(`/api/employer/jobs/${jobId}/applications`)
+  },
+
+  forwardToInterview(applicationId: string) {
+    return cvApi.post<ApplicationResponse>(`/api/employer/applications/${applicationId}/forward`)
+  },
+
+  getMyApplications() {
+    return cvApi.get<ApplicationResponse[]>('/api/cv/applications')
+  },
+
+  withdrawApplication(applicationId: string) {
+    return cvApi.delete<ApplicationResponse>(`/api/cv/applications/${applicationId}`)
   },
 }

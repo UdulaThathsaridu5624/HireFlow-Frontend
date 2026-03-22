@@ -29,7 +29,9 @@ export interface Job {
   status: 'open' | 'closed'
   createdAt: string
   updatedAt: string
-  company?: { id: string; name: string } | null
+  companyName?: string | null
+  companyLogo?: string | null
+  company?: { id: string; name: string; logo?: string } | null
 }
 
 export interface CreateJobPayload {

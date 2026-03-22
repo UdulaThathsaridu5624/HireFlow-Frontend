@@ -48,16 +48,16 @@ export default {
     formData.append('company', jsonBlob)
     formData.append('logo', logo)
 
-    return companyApi.post<CompanyResponse>('/api/companies', formData)
+    return companyApi.post<CompanyResponse>('/companies', formData)
   },
 
   getCompanyByEmployee(employeeId: string) {
     // Explicitly ensure employeeId is a string to avoid 400 errors with UUIDs
-    return companyApi.get<CompanyResponse>(`/api/companies/employee/${String(employeeId)}`)
+    return companyApi.get<CompanyResponse>(`/companies/employee/${String(employeeId)}`)
   },
 
   getCompanyById(id: number) {
-    return companyApi.get<CompanyResponse>(`/api/companies/${id}`)
+    return companyApi.get<CompanyResponse>(`/companies/${id}`)
   },
 
   updateCompany(id: number, metadata: CompanyMetadata, logo?: File) {
@@ -69,32 +69,32 @@ export default {
       formData.append('logo', logo)
     }
 
-    return companyApi.put<CompanyResponse>(`/api/companies/${id}`, formData)
+    return companyApi.put<CompanyResponse>(`/companies/${id}`, formData)
   },
 
   deleteCompany(id: number) {
-    return companyApi.delete(`/api/companies/${id}`)
+    return companyApi.delete(`/companies/${id}`)
   },
 
   getAllCompanies() {
-    return companyApi.get<CompanyResponse[]>('/api/companies')
+    return companyApi.get<CompanyResponse[]>('/companies')
   },
 
   searchCompanies(query: string) {
-    return companyApi.get<CompanyResponse[]>(`/api/companies/search`, {
+    return companyApi.get<CompanyResponse[]>(`/companies/search`, {
       params: { query }
     })
   },
 
   followCompany(id: number) {
-    return companyApi.post(`/api/companies/${id}/follow`)
+    return companyApi.post(`/companies/${id}/follow`)
   },
 
   unfollowCompany(id: number) {
-    return companyApi.delete(`/api/companies/${id}/follow`)
+    return companyApi.delete(`/companies/${id}/follow`)
   },
 
   getCompanyAnalytics(id: number) {
-    return companyApi.get<CompanyAnalytics>(`/api/companies/${id}/analytics`)
+    return companyApi.get<CompanyAnalytics>(`/companies/${id}/analytics`)
   }
 }

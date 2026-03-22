@@ -84,7 +84,10 @@
               </div>
 
               <!-- Actions -->
-              <div class="flex gap-2 shrink-0">
+              <div class="flex flex-col gap-2 shrink-0">
+                <Button size="sm" @click="router.push(`/employer/jobs/${job.id}/applications`)">
+                  <Users class="h-3.5 w-3.5 mr-1" /> View Applications
+                </Button>
                 <Button variant="outline" size="sm" @click="openEditDialog(job)">
                   <Pencil class="h-3.5 w-3.5 mr-1" /> Edit
                 </Button>
@@ -135,7 +138,8 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { Plus, Pencil, X, Briefcase, Loader2 } from 'lucide-vue-next'
+import { useRouter } from 'vue-router'
+import { Plus, Pencil, X, Briefcase, Loader2, Users } from 'lucide-vue-next'
 import { useJobStore } from '@/stores/jobs'
 import type { Job } from '@/services/jobApi'
 import AppShell from '@/components/layout/AppShell.vue'
@@ -147,6 +151,7 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
 } from '@/components/ui/dialog'
 
+const router = useRouter()
 const jobStore = useJobStore()
 const showPostDialog = ref(false)
 const showEditDialog = ref(false)

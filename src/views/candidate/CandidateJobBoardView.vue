@@ -69,19 +69,16 @@
                   <h3 class="font-semibold text-foreground text-lg">{{ job.title }}</h3>
                   <Badge v-if="job.isRemote" variant="outline" class="text-xs">Remote</Badge>
                 </div>
-                <p v-if="job.company?.name" class="text-primary text-sm font-medium mt-0.5">
-                  {{ job.company.name }}
+                <p v-if="job.company?.name || job.companyName" class="text-primary text-sm font-medium mt-0.5">
+                  {{ job.company?.name || job.companyName }}
                 </p>
                 <p class="text-muted-foreground text-sm mt-0.5">📍 {{ job.location }}</p>
-                <p class="text-muted-foreground text-sm mt-2 line-clamp-2">{{ job.description }}</p>
+                <p class="text-muted-foreground text-sm mt-2 whitespace-pre-line">{{ job.description }}</p>
 
                 <!-- Skills -->
                 <div class="flex flex-wrap gap-1.5 mt-3">
-                  <Badge v-for="skill in job.requiredSkills.slice(0, 5)" :key="skill" variant="outline" class="text-xs">
+                  <Badge v-for="skill in job.requiredSkills" :key="skill" variant="outline" class="text-xs">
                     {{ skill }}
-                  </Badge>
-                  <Badge v-if="job.requiredSkills.length > 5" variant="outline" class="text-xs">
-                    +{{ job.requiredSkills.length - 5 }} more
                   </Badge>
                 </div>
 
@@ -94,9 +91,21 @@
                 </div>
               </div>
 
-              <Button size="sm" @click.stop="openJobDetail(job)">
-                View Details
-              </Button>
+              <div class="flex flex-col gap-2 shrink-0">
+                <Button size="sm" @click.stop="openJobDetail(job)">
+                  View Details
+                </Button>
+                <Button
+                  size="sm"
+                  variant="default"
+                  :class="appliedJobIds.has(job.id) ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-green-600 hover:bg-green-700 text-white'"
+                  :disabled="appliedJobIds.has(job.id) || applyingJobId === job.id"
+                  @click.stop="applyForJob(job.id)"
+                >
+                  <Loader2 v-if="applyingJobId === job.id" class="h-3 w-3 animate-spin mr-1" />
+                  {{ appliedJobIds.has(job.id) ? 'Applied' : applyingJobId === job.id ? 'Applying...' : 'Apply' }}
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -150,6 +159,14 @@
 
           <div class="flex justify-end gap-3 pt-2 border-t">
             <Button variant="outline" @click="showDetailDialog = false">Close</Button>
+            <Button
+              :class="selectedJob && appliedJobIds.has(selectedJob.id) ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-green-600 hover:bg-green-700 text-white'"
+              :disabled="!selectedJob || appliedJobIds.has(selectedJob.id) || applyingJobId === selectedJob?.id"
+              @click="applyForJob(selectedJob!.id)"
+            >
+              <Loader2 v-if="applyingJobId === selectedJob?.id" class="h-4 w-4 animate-spin mr-1" />
+              {{ selectedJob && appliedJobIds.has(selectedJob.id) ? 'Applied' : applyingJobId === selectedJob?.id ? 'Applying...' : 'Apply Now' }}
+            </Button>
           </div>
         </div>
       </DialogContent>
@@ -170,15 +187,27 @@ import { Card, CardContent } from '@/components/ui/card'
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
 } from '@/components/ui/dialog'
+import cvApi from '@/services/cvApi'
 
 const jobStore = useJobStore()
 const showDetailDialog = ref(false)
 const selectedJob = ref<Job | null>(null)
+const applyingJobId = ref<string | null>(null)
+const applyError = ref<string | null>(null)
+const appliedJobIds = ref<Set<string>>(new Set())
 
 const filters = ref({ title: '', location: '', skill: '' })
 let debounceTimer: ReturnType<typeof setTimeout>
 
-onMounted(() => jobStore.fetchOpenJobs())
+onMounted(async () => {
+  await jobStore.fetchOpenJobs()
+  try {
+    const { data } = await cvApi.getMyApplications()
+    appliedJobIds.value = new Set(data.map(a => a.jobId))
+  } catch {
+    // not critical — silently ignore (e.g. candidate profile not yet created)
+  }
+})
 
 function debouncedSearch() {
   clearTimeout(debounceTimer)
@@ -204,6 +233,22 @@ function clearFilters() {
 function openJobDetail(job: Job) {
   selectedJob.value = job
   showDetailDialog.value = true
+}
+
+async function applyForJob(jobId: string) {
+  applyingJobId.value = jobId
+  applyError.value = null
+  try {
+    await cvApi.applyForJob(jobId)
+    appliedJobIds.value = new Set([...appliedJobIds.value, jobId])
+    showDetailDialog.value = false
+    alert('Application submitted successfully!')
+  } catch (err: any) {
+    applyError.value = err?.response?.data?.message ?? 'Failed to apply. Please try again.'
+    alert(applyError.value)
+  } finally {
+    applyingJobId.value = null
+  }
 }
 
 function formatDate(dateStr: string) {

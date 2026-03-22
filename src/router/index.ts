@@ -39,6 +39,12 @@ const router = createRouter({
       meta: { requiresAuth: true, role: UserRole.EMPLOYER },
     },
     {
+      path: '/employer/jobs/:jobId/applications',
+      name: 'employer-job-applications',
+      component: () => import('../views/employer/EmployerJobApplicationsView.vue'),
+      meta: { requiresAuth: true, role: UserRole.EMPLOYER },
+    },
+    {
       path: ROUTES.EMPLOYER_PIPELINES,
       name: 'employer-pipelines',
       component: () => import('../views/employer/PipelinesView.vue'),
@@ -98,6 +104,9 @@ const router = createRouter({
       path: ROUTES.CANDIDATE_JOBS,
       name: 'candidate-jobs',
       component: () => import('../views/candidate/CandidateJobBoardView.vue'),
+      meta: { requiresAuth: true, role: UserRole.CANDIDATE },
+    },
+    {
       path: ROUTES.CANDIDATE_COMPANIES,
       name: 'candidate-companies',
       component: () => import('../views/candidate/ExploreCompaniesView.vue'),
